@@ -113,7 +113,6 @@ public class Employee_view {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				System.out.println(Order_database.PrintOrderPanel());
-				updateDisplay();
 				Order_database.LineRemove(Fname.getText(), Lname.getText(), OrderDescription.getText());
 				updateDisplay();
 			}
