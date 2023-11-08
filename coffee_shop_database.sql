@@ -19,8 +19,19 @@ CREATE TABLE ManagerView (
     Category VARCHAR(50)
 );
 
-INSERT INTO ManagerView VALUES ("CoffeeGrounds", NULL, 40, "Inventory");
-INSERT INTO ManagerView VALUES ("Latte", 2.50, NULL, "Price Check");
+INSERT INTO ManagerView VALUES ("CoffeeGrounds", 50, NULL, "Inventory");
+INSERT INTO ManagerView VALUES ("Lattee", NULL, 3.50, "Price Check");
 
+CREATE TABLE CustomerLine(
+	Fname VARCHAR(50),
+    Lname VARCHAR(50),
+    OrderDescription MEDIUMTEXT,
+	BeingWorkedOn BOOLEAN
+);
+
+INSERT INTO CustomerLine VALUES ("Bob", "Smith", "Latte and a cookie", FALSE);
+INSERT INTO CustomerLine VALUES ("Dave", "Lee", "Mocha and a sandwhich", FALSE);
+
+SELECT * FROM my_coffee_shop.CustomerLine;
 SELECT * FROM my_coffee_shop.managerview;
 SELECT * FROM my_coffee_shop.coffeeshoporders;
