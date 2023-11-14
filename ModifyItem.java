@@ -6,11 +6,18 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.*;
 
+
 public class ModifyItem extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private static String drink;
+	private StringBuilder custom = new StringBuilder();
+	
+	private JSpinner drinkQuantity;
+	private JComboBox<String> drinkSize;
+    private JComboBox<String> hotOrIced;
+    private JList<String> listOfFlavors;
+    private JSpinner shotsNum;
 	
 	
 
@@ -18,10 +25,12 @@ public class ModifyItem extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		final Functionality function = new Functionality();
+		final String drink = "";
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ModifyItem frame = new ModifyItem(drink);
+					ModifyItem frame = new ModifyItem(drink, function);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -29,12 +38,50 @@ public class ModifyItem extends JFrame {
 			}
 		});
 	}
+	
+	private String customFormat(String ammount, String size, String temp, String flav, String shots) {
+		
+		// add the amount of drinks to add
+		custom.append(ammount + " ");
+		
+		// add the letter of the desired size to the order
+		if(size.equals("Small")) {
+			custom.append("S ");
+		}else if (size.equals("Medium")) {
+			custom.append("M ");
+		}else if (size.equals("Large")) {
+			custom.append("L ");
+		}
+		
+		// add the if they would like it iced or hot, and if it is blended
+		// say its iced with a B to stand for blended
+		if(temp.equals("Iced (Blended)")) {
+			custom.append("Ice-B ");
+		}else {
+			custom.append(temp + " ");
+		}
+		// add the abbreviation of the flavor they got
+		if(flav.equals("No Flavor")) {
+			custom.append("NF ");
+		}else if(flav.equals("Caramel")) {
+			custom.append("CAR ");
+		}else if(flav.equals("Vanilla")) {
+			custom.append("VAN ");
+		}else if(flav.equals("Mocha")) {
+			custom.append("MOC ");
+		}
+		
+		custom.append(shots + "Shot");
+		
+		return custom.toString();
+	}
+	
 
 	/**
 	 * Create the frame.
 	 */
 	@SuppressWarnings("deprecation")
-	public ModifyItem(String drink) {
+	public ModifyItem(final String drink, final Functionality function) {
 		setTitle(drink);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 356, 309);
@@ -46,41 +93,50 @@ public class ModifyItem extends JFrame {
 		// the quantity of drinks
 		JLabel quantityLabel = new JLabel("Quantity ");
 		SpinnerNumberModel shotsModel = new SpinnerNumberModel(1, 1, 10, 1); // min 1 drink, max 10 drinks
-		JSpinner drinkQuantity = new JSpinner(shotsModel);
+		drinkQuantity = new JSpinner(shotsModel);
 		
 		JLabel iceOrHotLabel = new JLabel("Iced or Hot");	
-		JComboBox<String> hotOrIced = new JComboBox<String>(new String[] {"Hot", "Iced"});
+		hotOrIced = new JComboBox<String>(new String[] {"Hot", "Iced"});
 		if(drink.equals("Hot Chocolate"))
 		{
-			hotOrIced.disable();
+			//hotOrIced.disable();
+			hotOrIced.enable(false);
 		}else if(drink.equals("Frappee"))
 		{
-			hotOrIced.disable();
+			//hotOrIced.disable();
+			hotOrIced.enable(false);
 			hotOrIced = new JComboBox<String>(new String[] {"Iced (Blended)"});
 		}
 		
 		JLabel drinkSizeLabel = new JLabel("Size");
-		JComboBox<String> drinkSize = new JComboBox<String>(new String[] {"Small", "Medium", "Large"});
+		drinkSize = new JComboBox<String>(new String[] {"Small", "Medium", "Large"});
 		
 		JLabel flavorLabel = new JLabel("Flavor");
-		JCheckBox noFlavorOption = new JCheckBox("No Flvaor");
-		String[] arrayFlvaor = {"Caramel", "Vanilla", "Mocha"};
-		JList<String> listOfFlavors = new JList<String>(arrayFlvaor);
-		listOfFlavors.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		JScrollPane flavorScrollPane = new JScrollPane(listOfFlavors);
+		String[] arrayFlvaor = {"No Flavor", "Caramel", "Vanilla", "Mocha"};
+		listOfFlavors = new JList<String>(arrayFlvaor);
+		//listOfFlavors.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		listOfFlavors.setSelectedIndex(0);
+		JScrollPane flavorScrollPane = new JScrollPane();
 		
 		
 		
 		JLabel numberOfShotsLabel = new JLabel("Shots");
 		SpinnerNumberModel numberOfShots = new SpinnerNumberModel(1, 1, 4, 1); // min 1 shot, max 4 drinks
-		JSpinner shotsNum = new JSpinner(numberOfShots);
+		shotsNum = new JSpinner(numberOfShots);
 		
 		JButton addToOrderButton = new JButton("Add to Order");
 		addToOrderButton.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
 	            // TODO add all the modifications to the order
 	        	// Logic to handle the order can go here
+	        	String quant = drinkQuantity.getValue().toString();
+	        	String siz = drinkSize.getSelectedItem().toString();
+				String temp = hotOrIced.getSelectedItem().toString();
+				String flav = listOfFlavors.getSelectedValue();
+				String shot = shotsNum.getValue().toString();
+	        	String mods = customFormat(quant, siz, temp, flav, shot);
 	        	
+	        	function.addToOrder(drink, mods, (Integer) drinkQuantity.getValue());
 	        	
 	        	ModifyItem.this.dispose(); // This will close the window
 	        }
@@ -98,7 +154,6 @@ public class ModifyItem extends JFrame {
 						.addComponent(addToOrderButton, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE)
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-								.addComponent(flavorLabel)
 								.addComponent(quantityLabel)
 								.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 									.addGroup(gl_contentPane.createSequentialGroup()
@@ -106,18 +161,22 @@ public class ModifyItem extends JFrame {
 										.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
 											.addComponent(drinkSizeLabel)
 											.addComponent(numberOfShotsLabel)))
-									.addComponent(iceOrHotLabel)))
-							.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(iceOrHotLabel))
+								.addComponent(flavorLabel))
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addComponent(drinkQuantity, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(hotOrIced, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(drinkSize, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addGroup(gl_contentPane.createSequentialGroup()
-									.addGap(6)
+									.addPreferredGap(ComponentPlacement.RELATED)
 									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-										.addComponent(flavorScrollPane, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
-										.addComponent(shotsNum, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-								.addComponent(noFlavorOption))))
+										.addComponent(drinkQuantity, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addComponent(hotOrIced, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addComponent(drinkSize, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addGroup(gl_contentPane.createSequentialGroup()
+											.addGap(6)
+											.addComponent(shotsNum, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addGap(12)
+									.addComponent(flavorScrollPane, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)))
+							.addGap(48)))
 					.addContainerGap())
 		);
 		gl_contentPane.setVerticalGroup(
@@ -135,19 +194,21 @@ public class ModifyItem extends JFrame {
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(drinkSize, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(drinkSizeLabel))
-					.addGap(10)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(noFlavorOption)
-						.addComponent(flavorLabel))
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGap(10)
+							.addComponent(flavorScrollPane, GroupLayout.PREFERRED_SIZE, 83, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGap(41)
+							.addComponent(flavorLabel)))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(flavorScrollPane, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
-					.addGap(8)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(numberOfShotsLabel)
 						.addComponent(shotsNum, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(addToOrderButton))
 		);
+		flavorScrollPane.setViewportView(listOfFlavors);
 		contentPane.setLayout(gl_contentPane);
 	}
 }
