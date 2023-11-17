@@ -1,6 +1,7 @@
 import java.awt.EventQueue;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.*;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -99,11 +100,12 @@ public class Employee_view {
 			}
 		});
 		
-		JButton ManagerButton = new JButton("Manager View");
-		ManagerButton.addMouseListener(new MouseAdapter(){
+		JButton PriceCheckButton = new JButton("Price Check View");
+		PriceCheckButton.addMouseListener(new MouseAdapter(){
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				System.out.println(Order_database.PrintOrderPanel());
+				PriceCheck.main(null);
 				updateDisplay();
 			}
 		});
@@ -113,7 +115,6 @@ public class Employee_view {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				System.out.println(Order_database.PrintOrderPanel());
-				updateDisplay();
 				Order_database.LineRemove(Fname.getText(), Lname.getText(), OrderDescription.getText());
 				updateDisplay();
 			}
@@ -157,6 +158,14 @@ public class Employee_view {
 		);
 		panel.setLayout(gl_panel);
 		
+		JButton CloseButton = new JButton("Close Window");
+		CloseButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				frame.dispose();
+			}
+		});
+		
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -179,7 +188,9 @@ public class Employee_view {
 									.addPreferredGap(ComponentPlacement.RELATED))))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(18)
-							.addComponent(CompleteOrder)))
+							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
+								.addComponent(CloseButton, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(CompleteOrder, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
 					.addGap(16)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
 						.addComponent(OrderDescription)
@@ -192,7 +203,7 @@ public class Employee_view {
 								.addComponent(RemoveButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(ManagerButton, GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
+								.addComponent(PriceCheckButton, GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
 								.addComponent(ViewButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
 					.addGap(18)
 					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE))
@@ -214,23 +225,27 @@ public class Employee_view {
 						.addComponent(PriceLabel))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(OrderDescription, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
-						.addComponent(DescriptionLabel))
-					.addPreferredGap(ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(addButton)
-						.addComponent(ViewButton))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(OrderDescription, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(addButton)
+								.addComponent(ViewButton)))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(DescriptionLabel)
+							.addGap(45)
+							.addComponent(CloseButton)))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(RemoveButton)
-						.addComponent(ManagerButton)
+						.addComponent(PriceCheckButton)
 						.addComponent(CompleteOrder))
 					.addGap(22))
 				.addGroup(groupLayout.createSequentialGroup()
-					.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE)
+					.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE)
 					.addContainerGap())
 				.addGroup(groupLayout.createSequentialGroup()
-					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE)
+					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE)
 					.addContainerGap())
 		);
 		
