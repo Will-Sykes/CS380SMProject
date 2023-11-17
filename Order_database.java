@@ -37,9 +37,38 @@ public class Order_database {
 	 */
 	public static final String OrderLineTable = "CustomerLine";
 	
+	/**
+	 * holds the name of a column from the database onto a beingworkedon variable
+	 */
 	public static final String BeingWorkedOn = "BeingWorkedOn";
+	/**
+	 * Holds the name of the MangerView table in the database
+	 */
+	private static final String ManagerView = "ManagerView";
 	
+	/**
+	 * Create a string variable that holds the name of a attribute within the 
+	 */
+	public static final String PriceCheck = "Price Check";
+	/**
+	 * Holds the category tuple within the ManagerView table
+	 */
+	public static final String Category = "Category";
+	/**
+	 * Holds the Product name tuple within the ManagerView table
+	 */
+	public static final String Product = "Product";
 	
+	/**
+	 * Holds the quantity from the managerview table
+	 */
+	public static final String Quantity = "Quantity";
+	
+	public static final String EmployeesTable = "Employees";
+	
+	public static final String Permission = "Permission";
+	
+	public static final String EmployeeID = "EmployeeID";
 	
 	/**
 	 * Connects to the MySQL database
@@ -60,12 +89,35 @@ public class Order_database {
 		try {
 			con = DriverManager.getConnection(url, username, pass);
 			System.out.println("connected");
+			
 		}catch(Exception e){
 			System.out.println("exception "+ e.getMessage());
 		}
 	}
 	
 
+	/**
+	 * Prints the prices products and prices of certain items
+	 */
+	public static String PrintPriceCheckPanel() {
+		String output = "";
+		
+		
+		try {
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery("select * from "+ManagerView+"\nwhere " + Category + " = "+"\"" +  PriceCheck+"\"");
+			while(rs.next()) {
+				output += (rs.getString(Product)+ " ");
+				output += (rs.getString(Price));
+				output += ("\n");
+			}
+		}catch(Exception e){
+			System.out.println("Exception "+e.getMessage());
+		}
+		return output;
+		
+	}
+	
 	/**
 	 * Prints the entire table in the database that is ordered by the Fname
 	 */
@@ -88,6 +140,7 @@ public class Order_database {
 		return output;
 		
 	}
+	
 	
 	/**
 	 * Prints the entire table in the database that is ordered by the Fname
@@ -288,5 +341,53 @@ public class Order_database {
 		}
 	}
 	
-
+	public static int checkEmployee(String Firstname, String Lastname, String ID) {
+	int output = 0;
+		
+	
+		if(Fname.equals("")) {
+			System.out.println("make sure all textfields are filled");
+			return 0;
+		}
+		
+		ArrayList<String> Lineconditions = new ArrayList<String>();
+		if(!Lname.equals("")) {
+			Lineconditions.add(Fname+"=\""+Firstname+"\"");
+		}
+		else {
+			System.out.println("Please enter a Firstname");
+			return 0;
+		}
+		
+		if(!Lastname.equals("")) {
+			Lineconditions.add(Lname+"=\""+Lastname+"\"");
+		}
+		else {
+			System.out.println("Please enter a lastname");
+			return 0;
+		}
+		if(!ID.equals("")) {
+			Lineconditions.add(EmployeeID+"=\""+ID+"\"");
+		}
+		else {
+			System.out.println("Please enter a ID");
+			return 0;
+		}
+		
+		String joinedEmployeeconditions= String.join(" AND ", Lineconditions);
+		if(joinedEmployeeconditions.isEmpty()) {
+			System.out.println("please enter all information");
+			return 0;
+		}
+	
+		try {
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery("select "+ Permission + " from "+EmployeesTable+"\nwhere " + joinedEmployeeconditions);
+			if(!rs.next());
+			output = rs.getInt(Permission);
+		}catch(Exception e){
+			System.out.println("Exception "+e.getMessage());
+		}
+		return output;
+	}
 }
