@@ -84,7 +84,7 @@ public class ModifyItem extends JFrame {
 	public ModifyItem(final String drink, final Functionality function) {
 		setTitle(drink);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 356, 309);
+		setBounds(100, 100, 204, 345);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -114,7 +114,6 @@ public class ModifyItem extends JFrame {
 		JLabel flavorLabel = new JLabel("Flavor");
 		String[] arrayFlvaor = {"No Flavor", "Caramel", "Vanilla", "Mocha"};
 		listOfFlavors = new JList<String>(arrayFlvaor);
-		//listOfFlavors.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		listOfFlavors.setSelectedIndex(0);
 		JScrollPane flavorScrollPane = new JScrollPane();
 		
@@ -124,11 +123,9 @@ public class ModifyItem extends JFrame {
 		SpinnerNumberModel numberOfShots = new SpinnerNumberModel(1, 1, 4, 1); // min 1 shot, max 4 drinks
 		shotsNum = new JSpinner(numberOfShots);
 		
-		JButton addToOrderButton = new JButton("Add to Order");
+		JButton addToOrderButton = new JButton("Add to Cart");
 		addToOrderButton.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
-	            // TODO add all the modifications to the order
-	        	// Logic to handle the order can go here
 	        	String quant = drinkQuantity.getValue().toString();
 	        	String siz = drinkSize.getSelectedItem().toString();
 				String temp = hotOrIced.getSelectedItem().toString();
@@ -136,11 +133,13 @@ public class ModifyItem extends JFrame {
 				String shot = shotsNum.getValue().toString();
 	        	String mods = customFormat(quant, siz, temp, flav, shot);
 	        	
-	        	function.addToOrder(drink, mods, (Integer) drinkQuantity.getValue());
+	        	function.addToCart(drink, mods, (Integer) drinkQuantity.getValue());
 	        	
 	        	ModifyItem.this.dispose(); // This will close the window
 	        }
 	    });
+		
+		JButton backButton = new JButton("Back");
 		
 		
 		
@@ -149,43 +148,46 @@ public class ModifyItem extends JFrame {
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addContainerGap()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(addToOrderButton, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE)
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-								.addComponent(quantityLabel)
+							.addContainerGap()
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+									.addComponent(addToOrderButton, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE)
 									.addGroup(gl_contentPane.createSequentialGroup()
-										.addGap(35)
 										.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
 											.addComponent(drinkSizeLabel)
-											.addComponent(numberOfShotsLabel)))
-									.addComponent(iceOrHotLabel))
-								.addComponent(flavorLabel))
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+											.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+												.addGroup(gl_contentPane.createSequentialGroup()
+													.addGap(12)
+													.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+														.addComponent(quantityLabel)
+														.addComponent(flavorLabel)))
+												.addComponent(iceOrHotLabel)))
+										.addPreferredGap(ComponentPlacement.RELATED)
+										.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+											.addGroup(gl_contentPane.createSequentialGroup()
+												.addGap(6)
+												.addComponent(flavorScrollPane, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE))
+											.addComponent(drinkQuantity, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+											.addComponent(hotOrIced, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+											.addComponent(drinkSize, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
 								.addGroup(gl_contentPane.createSequentialGroup()
+									.addGap(40)
+									.addComponent(numberOfShotsLabel)
 									.addPreferredGap(ComponentPlacement.RELATED)
-									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-										.addComponent(drinkQuantity, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-										.addComponent(hotOrIced, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-										.addComponent(drinkSize, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-										.addGroup(gl_contentPane.createSequentialGroup()
-											.addGap(6)
-											.addComponent(shotsNum, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
-								.addGroup(gl_contentPane.createSequentialGroup()
-									.addGap(12)
-									.addComponent(flavorScrollPane, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)))
-							.addGap(48)))
-					.addContainerGap())
+									.addComponent(shotsNum, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
+						.addComponent(backButton))
+					.addContainerGap(158, Short.MAX_VALUE))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addContainerGap()
+					.addComponent(backButton)
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(drinkQuantity, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(quantityLabel))
+						.addComponent(quantityLabel)
+						.addComponent(drinkQuantity, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(hotOrIced, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
@@ -196,17 +198,18 @@ public class ModifyItem extends JFrame {
 						.addComponent(drinkSizeLabel))
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(10)
-							.addComponent(flavorScrollPane, GroupLayout.PREFERRED_SIZE, 83, GroupLayout.PREFERRED_SIZE))
+							.addGap(33)
+							.addComponent(flavorLabel))
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(41)
-							.addComponent(flavorLabel)))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(flavorScrollPane, GroupLayout.PREFERRED_SIZE, 83, GroupLayout.PREFERRED_SIZE)))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(numberOfShotsLabel)
 						.addComponent(shotsNum, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(addToOrderButton))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(addToOrderButton)
+					.addContainerGap(31, Short.MAX_VALUE))
 		);
 		flavorScrollPane.setViewportView(listOfFlavors);
 		contentPane.setLayout(gl_contentPane);
