@@ -1,4 +1,6 @@
 import java.awt.EventQueue;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -13,9 +15,14 @@ import javax.swing.JTextField;
 public class productView {
 
 	private JFrame frame;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
+	private JTextField productField;
+	private JTextField quantityField;
+	private JTextField priceField;
+	
+	private String prodField;
+	private Double priField;
+	private int quaField;
+	private String catField;
 
 	/**
 	 * Launch the application.
@@ -51,24 +58,73 @@ public class productView {
 		frame.getContentPane().setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(10, 131, 116, 119);
+		panel.setBounds(10, 11, 116, 128);
 		frame.getContentPane().add(panel);
 		
-		JButton btnNewButton_1 = new JButton("Add");
-		panel.add(btnNewButton_1);
+		final JComboBox<String> coffee = new JComboBox(new String[] {"", "Price Check", "Inventory"});
+        coffee.setBounds(20, 200, 116, 40);
+        frame.getContentPane().add(coffee);
 		
-		JButton btnNewButton_2 = new JButton("Remove");
-		panel.add(btnNewButton_2);
+		JButton searchButton = new JButton("Search");
+		searchButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				prodField = productField.getText();
+				
+				EmployeeProductView.searchProduct(prodField);
+			}
+		});
+		panel.add(searchButton);
 		
-		JButton btnNewButton_3 = new JButton("Search");
-		panel.add(btnNewButton_3);
+		JButton modButton = new JButton("Modify");
+		panel.add(modButton);
+		modButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				prodField = productField.getText();
+				priField = Double.parseDouble(priceField.getText());
+				quaField = Integer.parseInt(quantityField.getText());
+				String selectedValue = (String) coffee.getSelectedItem();
+				
+				
+				EmployeeProductView.modProduct(prodField, priField, quaField, selectedValue);
+				
+			}
+		});
 		
-		JButton btnNewButton = new JButton("Modify");
-		panel.add(btnNewButton);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(10, 11, 116, 109);
-		frame.getContentPane().add(comboBox);
+        
+        JButton adButton = new JButton("Add");
+		panel.add(adButton);
+		adButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				prodField = productField.getText();
+				priField = Double.parseDouble(priceField.getText());
+				quaField = Integer.parseInt(quantityField.getText());
+				String selectedValue = (String) coffee.getSelectedItem();
+				
+				
+				EmployeeProductView.addProduct(prodField, priField, quaField, selectedValue);
+				
+			}
+		});
+		
+		JButton reButton = new JButton("Remove");
+		reButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				prodField = productField.getText();
+				
+				EmployeeProductView.removeProduct(prodField);
+				
+			}
+		});
+		panel.add(reButton);
 		
 		JLabel lblNewLabel = new JLabel("Product");
 		lblNewLabel.setBounds(148, 140, 46, 14);
@@ -86,19 +142,27 @@ public class productView {
 		textArea.setBounds(136, 11, 288, 109);
 		frame.getContentPane().add(textArea);
 		
-		textField = new JTextField();
-		textField.setBounds(231, 137, 193, 20);
-		frame.getContentPane().add(textField);
-		textField.setColumns(10);
+		productField = new JTextField();
+		productField.setBounds(231, 137, 193, 20);
+		frame.getContentPane().add(productField);
+		productField.setColumns(10);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(231, 173, 193, 20);
-		frame.getContentPane().add(textField_1);
-		textField_1.setColumns(10);
+		quantityField = new JTextField();
+		quantityField.setBounds(231, 173, 193, 20);
+		frame.getContentPane().add(quantityField);
+		quantityField.setColumns(10);
 		
-		textField_2 = new JTextField();
-		textField_2.setBounds(231, 213, 193, 20);
-		frame.getContentPane().add(textField_2);
-		textField_2.setColumns(10);
+		priceField = new JTextField();
+		priceField.setBounds(231, 213, 193, 20);
+		frame.getContentPane().add(priceField);
+		priceField.setColumns(10);
+		
+		JLabel lblNewLabel_3 = new JLabel("Category Select:");
+		lblNewLabel_3.setBounds(20, 176, 106, 14);
+		frame.getContentPane().add(lblNewLabel_3);
+		
+		JButton clsWButton = new JButton("Close Window");
+		clsWButton.setBounds(20, 150, 106, 23);
+		frame.getContentPane().add(clsWButton);
 	}
 }

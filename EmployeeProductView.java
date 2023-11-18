@@ -1,5 +1,6 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -107,6 +108,44 @@ public class EmployeeProductView {
 	        	System.out.println("---------------------------------------");
 	            System.out.println("Product not found or failed to modify.");
 	            System.out.println("---------------------------------------");
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();  
+	    }
+	}
+	
+	public static void searchProduct(String product) {
+		/**
+         * Search and retrieve customer information
+         * @param String custName from field
+         */
+	    try {
+	        Statement st = con.createStatement();
+
+	        // query to retrieve customer information
+	        String selectQuery = "SELECT * FROM smcoffee.managerview WHERE Product = '" + product + "'";
+	        ResultSet resultSet = st.executeQuery(selectQuery);
+
+	        // if the customer with the provided name exists
+	        if (resultSet.next()) {
+	            // Customer found, retrieve information
+	            String Product = resultSet.getString("Product");
+	            Double price = resultSet.getDouble("Price");
+	            int quantity = resultSet.getInt("Quantity");
+	            String category = resultSet.getString("Category");
+
+	            // Print the customer information 
+	            System.out.println("----------------------------");
+	            System.out.println("Product Information:");
+	            System.out.println("Product Name: " + Product);
+	            System.out.println("Price: " + price);
+	            System.out.println("Quantity: " + quantity);
+	            System.out.println("Category: " + category);
+	            System.out.println("----------------------------");
+	        } else {
+	        	System.out.println("----------------------------");
+	            System.out.println("Item not found.");
+	            System.out.println("----------------------------");
 	        }
 	    } catch (SQLException e) {
 	        e.printStackTrace();  
