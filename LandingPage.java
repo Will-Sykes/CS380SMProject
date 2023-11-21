@@ -1,6 +1,7 @@
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
@@ -11,11 +12,19 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class LandingPage {
-
-	private JFrame frame;
+	/**
+	 * creates the frame of the GUI
+	 */
+	private JFrame frmHub;
+	/**
+	 * holds the permission level of the user that is currently accessing the coffee shop landing page 
+	 */
 	private static int condition;
 	
-	
+	/**
+	 * allows condition to be updated to help hide which buttons are hidden later on
+	 * @param permission the permission level of the person using the landing page
+	 */
 	public static void setCondition(int permission) {
 		condition = permission;
 	}
@@ -28,10 +37,10 @@ public class LandingPage {
 			public void run() {
 				try {
 					LandingPage window = new LandingPage();
-					window.frame.setVisible(true);
+					window.frmHub.setVisible(true);
 					
 				} catch (Exception e) {
-					e.printStackTrace();
+					JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
@@ -51,10 +60,15 @@ public class LandingPage {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 301, 344);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmHub = new JFrame();
+		frmHub.setResizable(false);
+		frmHub.setTitle("Hub");
+		frmHub.setBounds(100, 100, 301, 390);
+		frmHub.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
+		/**
+		 * customer view button that will bring up the customer GUI interface.
+		 */
 		JButton CustomerButton = new JButton("Customer View");
 		CustomerButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -62,6 +76,9 @@ public class LandingPage {
 			}
 		});
 		
+		/**
+		 * create the employee view button that will bring up the employee GUI upon being pressed and hide it if the user is not an employee.
+		 */
 		JButton EmployeeButton = new JButton("Employee View");
 		EmployeeButton.setVisible(true);
 		if(!(condition >= 2)) {
@@ -75,6 +92,9 @@ public class LandingPage {
 			}
 		});
 		
+		/**
+		 * creates the manager view button that will bring up the manager GUI upon being pressed and hide it if the person is not a manager
+		 */
 		JButton ManagerButton = new JButton("Manager View");
 		ManagerButton.addMouseListener(new MouseAdapter() {
 			@Override
@@ -87,32 +107,48 @@ public class LandingPage {
 			ManagerButton.setVisible(false);
 		}
 		
+		/**
+		 * creates a sign out button that allows the user to go back to the login page
+		 */
+		JButton signoutButton = new JButton("Sign Out");
+		signoutButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				login.main(null);
+				frmHub.dispose();
+			}
+		});
 		
-		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
+		/**
+		 * creates a grouplayout that will help organize the buttons on the landing page
+		 */
+		GroupLayout groupLayout = new GroupLayout(frmHub.getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(21)
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
-						.addComponent(ManagerButton, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(EmployeeButton, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(CustomerButton, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE))
-					.addContainerGap())
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(signoutButton, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
+						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+							.addComponent(ManagerButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addComponent(EmployeeButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addComponent(CustomerButton, GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)))
+					.addGap(20))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(46)
-					.addComponent(CustomerButton, GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)
+					.addComponent(CustomerButton, GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(EmployeeButton, GroupLayout.DEFAULT_SIZE, 72, Short.MAX_VALUE)
+					.addComponent(EmployeeButton, GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(ManagerButton, GroupLayout.DEFAULT_SIZE, 68, Short.MAX_VALUE)
-					.addGap(28))
+					.addComponent(ManagerButton, GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(signoutButton, GroupLayout.DEFAULT_SIZE, 72, Short.MAX_VALUE)
+					.addContainerGap())
 		);
-		frame.getContentPane().setLayout(groupLayout);
+		frmHub.getContentPane().setLayout(groupLayout);
 	}
-	
-
-
 }
