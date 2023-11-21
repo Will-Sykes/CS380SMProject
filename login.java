@@ -7,17 +7,41 @@ import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JCheckBox;
+import javax.swing.JPasswordField;
 
 public class login {
-
-	private JFrame frame;
+	/**
+	 * the frame of the GUI
+	 */
+	private JFrame frmLogin;
+	/**
+	 * creates the first name textField to hold the firstname string of the employee
+	 */
 	private JTextField FirstNametextField;
+	/**
+	 * creates a last name text field to hold the last name of the person trying to login
+	 */
 	private JTextField LastNametextField;
-	private JTextField IDtextField;
+	/**
+	 * creates a textfields for to hold the employee ID of the person trying to login later on
+	 */
+	private JPasswordField IDtextField;
+	/**
+	 * creates the first name the will help identify which textfield holds the first name
+	 */
 	private JLabel FirstnameLabel;
+	/**
+	 * creates a last name JLabel variable to tell the user which textfield is the last name
+	 */
 	private JLabel LastNameLabel;
+	/**
+	 * creates a ID JLabel to tell the user which textfield is a ID later on.
+	 */
 	private JLabel IDlabel;
 
 	/**
@@ -29,9 +53,9 @@ public class login {
 				try {
 					login window = new login();
 					Order_database.connection();
-					window.frame.setVisible(true);
+					window.frmLogin.setVisible(true);
 				} catch (Exception e) {
-					e.printStackTrace();
+					JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
@@ -48,31 +72,52 @@ public class login {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 487, 297);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmLogin = new JFrame();
+		frmLogin.setResizable(false);
+		frmLogin.setTitle("Login");
+		frmLogin.setBounds(100, 100, 487, 297);
+		frmLogin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
+		/**
+		 * allows the user to login and disposes of the current frame if the login was sucessful.
+		 */
 		JButton LoginButton = new JButton("Login");
 		LoginButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				int condition = 0;
-				condition = Order_database.checkEmployee(FirstNametextField.getText(), LastNametextField.getText(), IDtextField.getText());
+				/**
+				 * creates a char to hold each character from the password
+				 */
+				char[] passwordchar = IDtextField.getPassword();
+				/**
+				 * creates a string password to combind each character from the password onto a single string
+				 */
+				String password = "";
+				for(char temp: passwordchar) {
+					password += temp;
+				}
+				
+				
+				condition = Order_database.checkEmployee(FirstNametextField.getText(), LastNametextField.getText(), password);
 				if(condition > 0 && condition <=3) {
 					LandingPage.main(null);
 					LandingPage.setCondition(condition);
-					frame.dispose();
+					frmLogin.dispose();
 				}
 			}
 		});
 		
+		/**
+		 * allows the user to continue as a customer without the need of a login.
+		 */
 		JButton CustomerButton = new JButton("Continue as customer:");
 		CustomerButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				LandingPage.main(null);
 				LandingPage.setCondition(1);
-				frame.dispose();
+				frmLogin.dispose();
 			}
 		});
 		
@@ -82,7 +127,7 @@ public class login {
 		LastNametextField = new JTextField();
 		LastNametextField.setColumns(10);
 		
-		IDtextField = new JTextField();
+		IDtextField = new JPasswordField();
 		IDtextField.setColumns(10);
 		
 		FirstnameLabel = new JLabel("First Name:");
@@ -90,7 +135,25 @@ public class login {
 		LastNameLabel = new JLabel("Last Name:");
 		
 		IDlabel = new JLabel("ID:");
-		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
+
+		/**
+		 * checkbox that will hide the ID for the login later on
+		 */
+		JCheckBox checkbox = new JCheckBox("");
+		checkbox.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(checkbox.isSelected()) {
+					IDtextField.setEchoChar((char) 0);
+				}else {
+					IDtextField.setEchoChar('\u2022');
+			    }
+			}
+		});
+		/**
+		 * creates a group layout to help with button formating
+		 */
+		GroupLayout groupLayout = new GroupLayout(frmLogin.getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(groupLayout.createSequentialGroup()
@@ -103,41 +166,45 @@ public class login {
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(55)
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
+								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
 									.addComponent(LastNameLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-									.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
+									.addGroup(groupLayout.createSequentialGroup()
 										.addPreferredGap(ComponentPlacement.RELATED)
 										.addComponent(FirstnameLabel, GroupLayout.PREFERRED_SIZE, 81, GroupLayout.PREFERRED_SIZE)))
 								.addComponent(IDlabel, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE))
 							.addGap(18)
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(LastNametextField, GroupLayout.DEFAULT_SIZE, 290, Short.MAX_VALUE)
-								.addComponent(FirstNametextField, GroupLayout.DEFAULT_SIZE, 290, Short.MAX_VALUE)
-								.addComponent(IDtextField, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 290, Short.MAX_VALUE))))
-					.addGap(43))
+								.addComponent(LastNametextField, GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
+								.addComponent(FirstNametextField, GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
+								.addComponent(IDtextField, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE))))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(checkbox, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap())
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(48)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(FirstNametextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(FirstnameLabel))
-					.addGap(18)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(LastNametextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(LastNameLabel))
-					.addGap(18)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(IDtextField)
-						.addComponent(IDlabel))
-					.addGap(70)
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+						.addComponent(checkbox)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(FirstNametextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(FirstnameLabel))
+							.addGap(18)
+							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(LastNametextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(LastNameLabel))
+							.addGap(18)
+							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(IDtextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(IDlabel))))
+					.addGap(68)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(LoginButton)
 						.addComponent(CustomerButton))
 					.addGap(23))
 		);
-		frame.getContentPane().setLayout(groupLayout);
+		frmLogin.getContentPane().setLayout(groupLayout);
 	}
-
 }
