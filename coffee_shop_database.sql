@@ -9,7 +9,7 @@ CREATE TABLE CoffeeShopOrders(
     Price DOUBLE
 );
 
-INSERT INTO CoffeeShopOrders VALUES ("Bob", "Smith", "Lattee with a cookie", 6.50);
+INSERT INTO CoffeeShopOrders VALUES ("Bob", "Smith", "Latte and a cookie", 6.50);
 
 
 CREATE TABLE ManagerView (
@@ -19,7 +19,8 @@ CREATE TABLE ManagerView (
     Category VARCHAR(50)
 );
 
-INSERT INTO ManagerView VALUES ("CoffeeGrounds", NULL, 40, "Inventory");
+INSERT INTO ManagerView VALUES ("Coffee Grounds", NULL, 40, "Inventory");
+INSERT INTO ManagerView VALUES ("Coffee Filters", NULL, 35, "Inventory");
 INSERT INTO ManagerView VALUES ("Latte", 3.50, NULL, "Price Check");
 INSERT INTO ManagerView VALUES ("Macchiato", 4.25, NULL, "Price Check");
 INSERT INTO ManagerView VALUES ("Hot Chocolate", 2.50, NULL, "Price Check");
@@ -42,7 +43,7 @@ CREATE TABLE CustomerLine(
 
 
 
-INSERT INTO CustomerLine VALUES ("Bob", "Smith", "Latte and a cookie", FALSE);
+INSERT INTO CustomerLine VALUES ("Bob", "Smith", "Latte and a cookie", TRUE);
 INSERT INTO CustomerLine VALUES ("Dave", "Lee", "Mocha and a sandwhich", FALSE);
 
 CREATE TABLE Employees(
@@ -52,8 +53,8 @@ CREATE TABLE Employees(
     Permission Int
 );
 
-INSERT INTO Employees VALUES ("Devlin", "Hamill", "213", 2);
-INSERT INTO Employees VALUES("William","Sykes","321",3);
+INSERT INTO Employees VALUES ("devlin", "hamill", "213", 2);
+INSERT INTO Employees VALUES("william","sykes","321",3);
 
 SELECT * FROM my_coffee_shop.CustomerLine;
 SELECT * FROM my_coffee_shop.managerview;
