@@ -1,6 +1,7 @@
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import javax.swing.GroupLayout;
@@ -12,8 +13,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class PriceCheck {
-
-	private JFrame frame;
+	/**
+	 * creates the frame of the GUI
+	 */
+	private JFrame frmPriceCheck;
 
 	/**
 	 * Launch the application.
@@ -24,9 +27,9 @@ public class PriceCheck {
 				try {
 					PriceCheck window = new PriceCheck();
 					Order_database.connection();
-					window.frame.setVisible(true);
+					window.frmPriceCheck.setVisible(true);
 				} catch (Exception e) {
-					e.printStackTrace();
+					JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
@@ -43,14 +46,24 @@ public class PriceCheck {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 526);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmPriceCheck = new JFrame();
+		frmPriceCheck.setTitle("Price Check");
+		frmPriceCheck.setBounds(100, 100, 450, 526);
+		frmPriceCheck.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
+		/**
+		 * creates a JPanel that will contain the Text area
+		 */
 		JPanel panel = new JPanel();
-		
+		/**
+		 * declares the textarea that will contain the prices and products of various items
+		 */
 		JTextArea DisplaytextArea = new JTextArea();
 		DisplaytextArea.setEditable(false);
+		
+		/**
+		 * creates the formating of the text area
+		 */
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
@@ -61,15 +74,20 @@ public class PriceCheck {
 				.addComponent(DisplaytextArea, GroupLayout.DEFAULT_SIZE, 389, Short.MAX_VALUE)
 		);
 		panel.setLayout(gl_panel);
-		
+		/**
+		 * creates a return button that allows for the user to go back to the previous page
+		 */
 		JButton ReturnButton = new JButton("Return");
 		ReturnButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				frame.dispose();
+				frmPriceCheck.dispose();
 			}
 		});
 		
+		/**
+		 * creates a display button that will print all product and pricing information onto the text area
+		 */
 		JButton DisplayButton = new JButton("Display Prices");
 		DisplayButton.addMouseListener(new MouseAdapter() {
 			@Override
@@ -77,13 +95,16 @@ public class PriceCheck {
 				DisplaytextArea.setText(Order_database.PrintPriceCheckPanel());
 			}
 		});
-		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
+		/**
+		 * creates the formating for the buttons and the panel
+		 */
+		GroupLayout groupLayout = new GroupLayout(frmPriceCheck.getContentPane());
 		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
+			groupLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addComponent(panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 446, Short.MAX_VALUE)
+					.addGap(0))
+				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(44)
 					.addComponent(ReturnButton, GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
 					.addGap(92)
@@ -93,13 +114,13 @@ public class PriceCheck {
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 389, GroupLayout.PREFERRED_SIZE)
+					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 389, Short.MAX_VALUE)
 					.addGap(38)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(ReturnButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 						.addComponent(DisplayButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 					.addGap(39))
 		);
-		frame.getContentPane().setLayout(groupLayout);
+		frmPriceCheck.getContentPane().setLayout(groupLayout);
 	}
 }
