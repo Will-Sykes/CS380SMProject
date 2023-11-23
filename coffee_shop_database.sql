@@ -3,20 +3,20 @@ CREATE DATABASE my_coffee_shop;
 USE my_coffee_shop;
 
 CREATE TABLE CoffeeShopOrders(
-	Fname VARCHAR(50),
-    Lname VARCHAR(50),
-    OrderDescription MEDIUMTEXT,
-    Price DOUBLE
+	Fname VARCHAR(50) NOT NULL,
+    Lname VARCHAR(50) NOT NULL,
+    OrderDescription MEDIUMTEXT NOT NULL,
+    Price DOUBLE NOT NULL
 );
 
 INSERT INTO CoffeeShopOrders VALUES ("Bob", "Smith", "Latte and a cookie", 6.50);
 
 
 CREATE TABLE ManagerView (
-	Product VARCHAR(1000),
+	Product VARCHAR(1000) NOT NULL,
     Price double,
     Quantity INT,
-    Category VARCHAR(50)
+    Category VARCHAR(50) NOT NULL
 );
 
 INSERT INTO ManagerView VALUES ("Coffee Grounds", NULL, 40, "Inventory");
@@ -35,10 +35,10 @@ INSERT INTO ManagerView VALUES ("Cookie", 4.50, NULL, "Price Check");
 INSERT INTO ManagerView VALUES ("Sandwhiches", 5.25, NULL, "Price Check");
 
 CREATE TABLE CustomerLine(
-	Fname VARCHAR(50),
-    Lname VARCHAR(50),
-    OrderDescription MEDIUMTEXT,
-	BeingWorkedOn BOOLEAN
+	Fname VARCHAR(50) NOT NULL,
+    Lname VARCHAR(50) NOT NULL,
+    OrderDescription MEDIUMTEXT NOT NULL,
+	BeingWorkedOn BOOLEAN NOT NULL
 );
 
 
@@ -47,9 +47,9 @@ INSERT INTO CustomerLine VALUES ("Bob", "Smith", "Latte and a cookie", TRUE);
 INSERT INTO CustomerLine VALUES ("Dave", "Lee", "Mocha and a sandwhich", FALSE);
 
 CREATE TABLE Employees(
-	Fname VARCHAR(50),
-    Lname VARCHAR(50),
-    EmployeeID VARCHAR(15),
+	Fname VARCHAR(50) NOT NULL,
+    Lname VARCHAR(50) NOT NULL,
+    EmployeeID VARCHAR(15) NOT NULL,
     Permission Int
 );
 
