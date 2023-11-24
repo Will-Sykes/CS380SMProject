@@ -77,10 +77,12 @@ public class PriceCheck {
 			}
 		});
 		/**
+		 * creates the pane used for the textarea.
+		 */
+		JScrollPane scrollPane = new JScrollPane();
+		/**
 		 * creates the formating for the buttons and the panel
 		 */
-		
-		JScrollPane scrollPane = new JScrollPane();
 		GroupLayout groupLayout = new GroupLayout(frmPriceCheck.getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.TRAILING)

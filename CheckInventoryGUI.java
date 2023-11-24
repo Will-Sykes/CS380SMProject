@@ -79,10 +79,12 @@ public class CheckInventoryGUI {
 		});
 		
 		/**
+		 * creates a pane used for the textArea
+		 */
+		JScrollPane scrollPane = new JScrollPane();
+		/**
 		 * creates a group layout that helps format the buttons and textareas
 		 */
-		
-		JScrollPane scrollPane = new JScrollPane();
 		GroupLayout groupLayout = new GroupLayout(frmInventoryCheck.getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.TRAILING)

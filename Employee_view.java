@@ -217,12 +217,16 @@ public class Employee_view {
 		});
 		
 		/**
+		 * creates the pane used for the textarea.
+		 */
+		JScrollPane scrollPane = new JScrollPane();
+		/**
+		 * creates the pane used for the textarea.
+		 */
+		JScrollPane scrollPane_1 = new JScrollPane();
+		/**
 		 * creates a group layout to help with organization
 		 */
-		
-		JScrollPane scrollPane = new JScrollPane();
-		
-		JScrollPane scrollPane_1 = new JScrollPane();
 		GroupLayout groupLayout = new GroupLayout(frmEmployeeView.getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
