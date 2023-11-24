@@ -129,8 +129,9 @@ public class Order_database {
 			 * gathers all the attributes within the database table
 			 */
 			ResultSet rs = st.executeQuery("select * from "+ManagerView+"\nwhere " + Category + " = "+"\"" +  Inventory+"\"");
+			output += "Product / Quantity\n";
 			while(rs.next()) {
-				output += (rs.getString(Product)+ " ");
+				output += (rs.getString(Product)+ ": #");
 				output += (rs.getString(Quantity));
 				output += ("\n");
 			}
@@ -160,8 +161,9 @@ public class Order_database {
 			 * gathers all the attributes within the database table
 			 */
 			ResultSet rs = st.executeQuery("select * from "+ManagerView+"\nwhere " + Category + " = "+"\"" +  PriceCheck+"\"");
+			output += "Product / Price\n";
 			while(rs.next()) {
-				output += (rs.getString(Product)+ " ");
+				output += (rs.getString(Product)+ ": $");
 				output += (rs.getString(Price));
 				output += ("\n");
 			}
@@ -191,12 +193,17 @@ public class Order_database {
 			 */
 			ResultSet rs = st.executeQuery("select * from "+Ordertable+"\nORDER BY Fname");
 			while(rs.next()) {
+				output += "------------------------------\n";
+				output += "Name: ";
 				output += (rs.getString(Fname)+ " ");
 				output += (rs.getString(Lname)+ " ");
+				output += "\nOrder:\n";
 				output += ("\""+rs.getString(OrderDescription)+ "\" ");
+				output +=("\n Price: $");
 				output += (rs.getString(Price));
 				output += ("\n");
 			}
+			output += "------------------------------";
 		}catch(Exception e){
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Printing Error", JOptionPane.ERROR_MESSAGE);
 		}
@@ -224,12 +231,17 @@ public class Order_database {
 			 */
 			ResultSet rs = st.executeQuery("select * from "+OrderLineTable+"\nORDER BY Fname");
 			while(rs.next()) {
+				output += "----------------------------------------\n";
+				output += "Name: ";
 				output += (rs.getString(Fname)+ " ");
 				output += (rs.getString(Lname)+ " ");
+				output += "\nOrder:\n";
 				output += ("\""+rs.getString(OrderDescription)+ "\" ");
+				output += "\nBeing Worked on (0 = no, 1 = yes): \n";
 				output += (rs.getString(BeingWorkedOn));
 				output += ("\n");
 			}
+			output += "----------------------------------------";
 		}catch(Exception e){
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Printing Error", JOptionPane.ERROR_MESSAGE);
 		}
