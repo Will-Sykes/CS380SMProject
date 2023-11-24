@@ -11,6 +11,7 @@ import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JScrollPane;
 
 public class CheckInventoryGUI {
 	
@@ -56,11 +57,6 @@ public class CheckInventoryGUI {
 		frmInventoryCheck.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		/**
-		 * creates the panel to hold the text field
-		 */
-		JPanel panel = new JPanel();
-		
-		/**
 		 * creates a return button that allows the user to dispose of the current GUI
 		 */
 		JButton returnButton = new JButton("Return");
@@ -85,48 +81,32 @@ public class CheckInventoryGUI {
 		/**
 		 * creates a group layout that helps format the buttons and textareas
 		 */
+		
+		JScrollPane scrollPane = new JScrollPane();
 		GroupLayout groupLayout = new GroupLayout(frmInventoryCheck.getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 421, Short.MAX_VALUE)
-					.addGap(0))
-				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(61)
-					.addComponent(returnButton, GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
+					.addComponent(returnButton, GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
 					.addGap(99)
-					.addComponent(btnNewButton_1, GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+					.addComponent(btnNewButton_1, GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
 					.addGap(46))
+				.addComponent(scrollPane, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 411, Short.MAX_VALUE)
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 329, Short.MAX_VALUE)
-					.addGap(42)
+					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 353, Short.MAX_VALUE)
+					.addGap(18)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(btnNewButton_1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 						.addComponent(returnButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 					.addGap(38))
 		);
-		
-		/**
-		 * creates the text area to display the inventory items
-		 */
 		textArea = new JTextArea();
+		scrollPane.setViewportView(textArea);
 		textArea.setEditable(false);
-		/**
-		 * creates a grouplayout for the panel to help format the textArea
-		 */
-		GroupLayout gl_panel = new GroupLayout(panel);
-		gl_panel.setHorizontalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addComponent(textArea, GroupLayout.DEFAULT_SIZE, 411, Short.MAX_VALUE)
-		);
-		gl_panel.setVerticalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addComponent(textArea, GroupLayout.DEFAULT_SIZE, 329, Short.MAX_VALUE)
-		);
-		panel.setLayout(gl_panel);
 		frmInventoryCheck.getContentPane().setLayout(groupLayout);
 	}
 }
