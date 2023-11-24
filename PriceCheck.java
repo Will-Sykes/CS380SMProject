@@ -11,13 +11,18 @@ import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JScrollPane;
 
 public class PriceCheck {
 	/**
 	 * creates the frame of the GUI
 	 */
 	private JFrame frmPriceCheck;
-
+	
+	/**
+	 * 
+	 */
+	private JTextArea DisplaytextArea;
 	/**
 	 * Launch the application.
 	 */
@@ -50,30 +55,6 @@ public class PriceCheck {
 		frmPriceCheck.setTitle("Price Check");
 		frmPriceCheck.setBounds(100, 100, 450, 526);
 		frmPriceCheck.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		/**
-		 * creates a JPanel that will contain the Text area
-		 */
-		JPanel panel = new JPanel();
-		/**
-		 * declares the textarea that will contain the prices and products of various items
-		 */
-		JTextArea DisplaytextArea = new JTextArea();
-		DisplaytextArea.setEditable(false);
-		
-		/**
-		 * creates the formating of the text area
-		 */
-		GroupLayout gl_panel = new GroupLayout(panel);
-		gl_panel.setHorizontalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addComponent(DisplaytextArea, GroupLayout.DEFAULT_SIZE, 436, Short.MAX_VALUE)
-		);
-		gl_panel.setVerticalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addComponent(DisplaytextArea, GroupLayout.DEFAULT_SIZE, 389, Short.MAX_VALUE)
-		);
-		panel.setLayout(gl_panel);
 		/**
 		 * creates a return button that allows for the user to go back to the previous page
 		 */
@@ -98,29 +79,32 @@ public class PriceCheck {
 		/**
 		 * creates the formating for the buttons and the panel
 		 */
+		
+		JScrollPane scrollPane = new JScrollPane();
 		GroupLayout groupLayout = new GroupLayout(frmPriceCheck.getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 446, Short.MAX_VALUE)
-					.addGap(0))
-				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(44)
-					.addComponent(ReturnButton, GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
+					.addComponent(ReturnButton, GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
 					.addGap(92)
-					.addComponent(DisplayButton, GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
+					.addComponent(DisplayButton, GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
 					.addGap(40))
+				.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 436, Short.MAX_VALUE)
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 389, Short.MAX_VALUE)
-					.addGap(38)
+					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 409, Short.MAX_VALUE)
+					.addGap(18)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(ReturnButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 						.addComponent(DisplayButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 					.addGap(39))
 		);
+		DisplaytextArea = new JTextArea();
+		DisplaytextArea.setEditable(false);
+		scrollPane.setViewportView(DisplaytextArea);
 		frmPriceCheck.getContentPane().setLayout(groupLayout);
 	}
 }
