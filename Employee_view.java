@@ -14,6 +14,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 
 public class Employee_view {
 	/**
@@ -92,8 +93,9 @@ public class Employee_view {
 	 */
 	private void initialize() {
 		frmEmployeeView = new JFrame();
+		frmEmployeeView.setResizable(false);
 		frmEmployeeView.setTitle("Employee View");
-		frmEmployeeView.setBounds(100, 100, 900, 304);
+		frmEmployeeView.setBounds(100, 100, 961, 304);
 		frmEmployeeView.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		/*removes a completed order from the order table database*/
@@ -193,29 +195,6 @@ public class Employee_view {
 		JLabel DescriptionLabel = new JLabel("Order Description");
 		
 		/**
-		 * creates a JPanel to hold a textarea
-		 */
-		JPanel panel_1 = new JPanel();
-		
-		/**
-		 * creates a JPanel to hold a textarea
-		 */
-		JPanel panel = new JPanel();
-		
-		OrderTextArea = new JTextArea();
-		OrderTextArea.setEditable(false);
-		GroupLayout gl_panel = new GroupLayout(panel);
-		gl_panel.setHorizontalGroup(
-			gl_panel.createParallelGroup(Alignment.TRAILING)
-				.addComponent(OrderTextArea, GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE)
-		);
-		gl_panel.setVerticalGroup(
-			gl_panel.createParallelGroup(Alignment.TRAILING)
-				.addComponent(OrderTextArea, GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE)
-		);
-		panel.setLayout(gl_panel);
-		
-		/**
 		 * closes the current window and returns to previous GUI
 		 */
 		JButton CloseButton = new JButton("Close Window");
@@ -240,11 +219,16 @@ public class Employee_view {
 		/**
 		 * creates a group layout to help with organization
 		 */
+		
+		JScrollPane scrollPane = new JScrollPane();
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
 		GroupLayout groupLayout = new GroupLayout(frmEmployeeView.getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
+					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 195, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(59)
@@ -263,9 +247,9 @@ public class Employee_view {
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(18)
 							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-								.addComponent(InventoryButton, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(CompleteOrder, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(CloseButton, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE))
+								.addComponent(CloseButton, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
+								.addComponent(InventoryButton, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
+								.addComponent(CompleteOrder, GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE))
 							.addGap(59)))
 					.addGap(16)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
@@ -282,10 +266,10 @@ public class Employee_view {
 								.addComponent(PriceCheckButton, GroupLayout.PREFERRED_SIZE, 113, Short.MAX_VALUE)
 								.addComponent(ViewButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
 					.addGap(18)
-					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE))
+					.addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 221, GroupLayout.PREFERRED_SIZE))
 		);
 		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
+			groupLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(36)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
@@ -300,12 +284,15 @@ public class Employee_view {
 						.addComponent(Price, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(PriceLabel))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addComponent(DescriptionLabel, Alignment.LEADING)
-						.addComponent(OrderDescription, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(DescriptionLabel)
+							.addGap(18)
+							.addComponent(CompleteOrder, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE))
+						.addComponent(OrderDescription, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE))
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 								.addComponent(addButton)
 								.addComponent(ViewButton))
@@ -315,35 +302,25 @@ public class Employee_view {
 								.addComponent(PriceCheckButton))
 							.addGap(22))
 						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(5)
-							.addComponent(CompleteOrder, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(InventoryButton)
-							.addGap(20))))
-				.addGroup(groupLayout.createSequentialGroup()
-					.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE)
-					.addContainerGap())
-				.addGroup(groupLayout.createSequentialGroup()
-					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE)
-					.addContainerGap())
-				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
-					.addContainerGap(166, Short.MAX_VALUE)
-					.addComponent(CloseButton)
-					.addGap(78))
+							.addGap(4)
+							.addComponent(CloseButton)))
+					.addGap(262))
+				.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
+						.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 258, GroupLayout.PREFERRED_SIZE)
+						.addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 258, GroupLayout.PREFERRED_SIZE))
+					.addGap(268))
 		);
+		
+		OrderTextArea = new JTextArea();
+		OrderTextArea.setEditable(false);
+		scrollPane_1.setViewportView(OrderTextArea);
 		
 		OrderLineTextArea = new JTextArea();
 		OrderLineTextArea.setEditable(false);
-		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
-		gl_panel_1.setHorizontalGroup(
-			gl_panel_1.createParallelGroup(Alignment.LEADING)
-				.addComponent(OrderLineTextArea, GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
-		);
-		gl_panel_1.setVerticalGroup(
-			gl_panel_1.createParallelGroup(Alignment.LEADING)
-				.addComponent(OrderLineTextArea, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE)
-		);
-		panel_1.setLayout(gl_panel_1);
+		scrollPane.setViewportView(OrderLineTextArea);
 		
 		frmEmployeeView.getContentPane().setLayout(groupLayout);
 	}
