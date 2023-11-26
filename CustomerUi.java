@@ -287,7 +287,7 @@ public class CustomerUi {
 		// button to add the entire order to the database
 		//before adding to the order it checks if: the names contain any unwanted characters, there is text in the names, and if there even is anything in the order
 		JButton addToOrderButton = new JButton("Add to Order");
-		addToOrderButton.setBounds(418, 303, 117, 29);
+		addToOrderButton.setBounds(433, 303, 117, 29);
 		addToOrderButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				noName.setVisible(false);
@@ -308,7 +308,7 @@ public class CustomerUi {
 		
 		//remove the last entered item in the order
 		JButton removeButton = new JButton("Remove");
-		removeButton.setBounds(304, 303, 117, 29);
+		removeButton.setBounds(347, 303, 93, 29);
 		removeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				function.remove();
@@ -320,7 +320,7 @@ public class CustomerUi {
 		
 		//open another window to check the prices and make an order for items that do not have a button
 		JButton pricesButton = new JButton("View Prices");
-		pricesButton.setBounds(6, 301, 117, 29);
+		pricesButton.setBounds(254, 303, 99, 29);
 		pricesButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				priceChecker checker = new priceChecker(function);
@@ -335,6 +335,15 @@ public class CustomerUi {
 			}
 		});
 		frame.getContentPane().add(pricesButton);
+		
+		JButton exitBttn = new JButton("Close Window");
+		exitBttn.setBounds(7, 303, 117, 29);
+		exitBttn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+			}
+		});
+		frame.getContentPane().add(exitBttn);
 		
 		
 	}
