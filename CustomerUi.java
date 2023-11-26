@@ -1,5 +1,4 @@
 import java.awt.EventQueue;
-import java.util.*;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
@@ -24,6 +23,7 @@ public class CustomerUi {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					CustomerLineDatabase.connection();
 					CustomerUi window = new CustomerUi();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
@@ -47,8 +47,9 @@ public class CustomerUi {
 	private void initialize() {
 		// frame 
 		frame = new JFrame();
+		frame.setResizable(false);
 		frame.setTitle("SoftMicro Coffee");
-		frame.setBounds(100, 100, 511, 364);
+		frame.setBounds(100, 100, 550, 364);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -73,13 +74,14 @@ public class CustomerUi {
 		frame.getContentPane().add(LNameFeild);
 		LNameFeild.setColumns(10);
 		
-		
+		// a message that will appear if first name or last names contains characters that are not allowed
 		final JLabel invalidName = new JLabel("Name should only contain letters (a-z, A-Z)");
 		invalidName.setForeground(Color.RED);
 		invalidName.setBounds(6, 64, 289, 16);
 		frame.getContentPane().add(invalidName);
 		invalidName.setVisible(false);
 		
+		// a message that appears if the user did not input the first or last name
 		final JLabel noName = new JLabel("Please enter your first and last name");
 		noName.setForeground(Color.RED);
 		noName.setBounds(6, 67, 289, 16);
@@ -88,155 +90,19 @@ public class CustomerUi {
 		
 		orderView = new JTextArea();
 		orderView.setEditable(false);
-		orderView.setBounds(304, 11, 196, 222);
+		orderView.setBounds(304, 11, 230, 222);
 		frame.getContentPane().add(orderView);
 		
-		//
-		JButton americanoButton = new JButton("Americano");
-		americanoButton.setBounds(7, 169, 117, 29);
-		americanoButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				ModifyItem mod = new ModifyItem("Americano", function);
-				mod.addWindowListener(new WindowAdapter() {
-		            @Override
-		            public void windowClosed(WindowEvent e) {
-		            	orderView.setText(function.getOrder());
-		            }
-		        });
-				mod.setVisible(true);
-			}
-		});
-		frame.getContentPane().add(americanoButton);
-		
-		JButton hotChocolateButton = new JButton("Hot Chocolate");
-		hotChocolateButton.setBounds(119, 138, 117, 29);
-		hotChocolateButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				ModifyItem mod = new ModifyItem("Hot Chocolate", function);
-				mod.addWindowListener(new WindowAdapter() {
-		            @Override
-		            public void windowClosed(WindowEvent e) {
-		            	orderView.setText(function.getOrder());
-		            }
-		        });
-				mod.setVisible(true);
-			}
-		});
-		frame.getContentPane().add(hotChocolateButton);
-		
-		JButton latteButton = new JButton("Latte");
-		latteButton.setBounds(7, 106, 117, 29);
-		latteButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				ModifyItem mod = new ModifyItem("Latte", function);
-				mod.addWindowListener(new WindowAdapter() {
-		            @Override
-		            public void windowClosed(WindowEvent e) {
-		            	orderView.setText(function.getOrder());
-		            }
-		        });
-				mod.setVisible(true);
-			}
-		});
-		frame.getContentPane().add(latteButton);
-		
-		JButton cappuccinoButton = new JButton("Cappuccino");
-		cappuccinoButton.setBounds(119, 169, 117, 29);
-		cappuccinoButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				ModifyItem mod = new ModifyItem("Cappuccino", function);
-				mod.addWindowListener(new WindowAdapter() {
-		            @Override
-		            public void windowClosed(WindowEvent e) {
-		            	orderView.setText(function.getOrder());
-		            }
-		        });
-				mod.setVisible(true);
-			}
-		});
-		frame.getContentPane().add(cappuccinoButton);
-		
-		JButton macchiatoButton = new JButton("Macchiato");
-		macchiatoButton.setBounds(6, 138, 117, 29);
-		macchiatoButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				ModifyItem mod = new ModifyItem("Macchiato", function);
-				mod.addWindowListener(new WindowAdapter() {
-		            @Override
-		            public void windowClosed(WindowEvent e) {
-		            	orderView.setText(function.getOrder());
-		            }
-		        });
-				mod.setVisible(true);
-			}
-		});
-		frame.getContentPane().add(macchiatoButton);
-		
-		JButton frappeeButton = new JButton("Frappee");
-		frappeeButton.setBounds(119, 106, 117, 29);
-		frappeeButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				ModifyItem mod = new ModifyItem("Frappee", function);
-				mod.addWindowListener(new WindowAdapter() {
-		            @Override
-		            public void windowClosed(WindowEvent e) {
-		            	orderView.setText(function.getOrder());
-		            }
-		        });
-				mod.setVisible(true);
-			}
-		});
-		frame.getContentPane().add(frappeeButton);
+		JLabel labelForPriceBox = new JLabel("Total:");
+		labelForPriceBox.setBounds(418, 245, 36, 16);
+		frame.getContentPane().add(labelForPriceBox);
 		
 		totalField = new JTextField();
-		totalField.setBounds(314, 256, 180, 35);
+		totalField.setBounds(347, 256, 180, 35);
 		totalField.setEditable(false);
 		frame.getContentPane().add(totalField);
 		totalField.setColumns(10);
-		
-		JLabel labelForPriceBox = new JLabel("Total:");
-		labelForPriceBox.setBounds(385, 245, 36, 16);
-		frame.getContentPane().add(labelForPriceBox);
-		
-		JButton beagleButton = new JButton("Bagel");
-		beagleButton.setBounds(7, 260, 117, 29);
-		beagleButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				function.addToCart("Bagel", 1);
-				orderView.setText(function.getOrder());
-			}
-		});
-		frame.getContentPane().add(beagleButton);
-		
-		JButton cookieButton = new JButton("Cookie");
-		cookieButton.setBounds(119, 260, 117, 29);
-		cookieButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				function.addToCart("Cookie", 1);
-				orderView.setText(function.getOrder());
-			}
-		});
-		frame.getContentPane().add(cookieButton);
-		
-		JButton muffinButton = new JButton("Muffin");
-		muffinButton.setBounds(6, 229, 117, 29);
-		muffinButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				function.addToCart("Muffin", 1);
-				orderView.setText(function.getOrder());
-			}
-		});
-		frame.getContentPane().add(muffinButton);
-		
-		JButton doughnutButton = new JButton("Doughnut");
-		doughnutButton.setBounds(119, 229, 117, 29);
-		doughnutButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				function.addToCart("Doughnut", 1);
-				orderView.setText(function.getOrder());
-			}
-		});
-		frame.getContentPane().add(doughnutButton);
+		totalField.setText("$0.00");
 		
 		JSeparator separator = new JSeparator();
 		separator.setBounds(17, 195, 230, 12);
@@ -250,8 +116,178 @@ public class CustomerUi {
 		lblNewLabel_1.setBounds(96, 92, 47, 16);
 		frame.getContentPane().add(lblNewLabel_1);
 		
+		
+//-----------------------------------------------------------------------------------------------Drinks
+		//the following are for buttons that add drinks to the order
+		//the buttons will open up another window so customers can customize their drinks
+		//when that window is closed, the order box and total box will update showing the new total and item 
+		
+		//button to add an Americano
+		JButton americanoButton = new JButton("Americano");
+		americanoButton.setBounds(7, 169, 117, 29);
+		americanoButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ModifyItem mod = new ModifyItem("Americano", function);
+				mod.addWindowListener(new WindowAdapter() {
+		            @Override
+		            public void windowClosed(WindowEvent e) {
+		            	orderView.setText(function.getOrder());
+		            	totalField.setText(function.getPrice());
+		            }
+		        });
+				mod.setVisible(true);
+			}
+		});
+		frame.getContentPane().add(americanoButton);
+		
+		//button to add an Hot Chocolate
+		JButton hotChocolateButton = new JButton("Hot Chocolate");
+		hotChocolateButton.setBounds(119, 138, 117, 29);
+		hotChocolateButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ModifyItem mod = new ModifyItem("Hot Chocolate", function);
+				mod.addWindowListener(new WindowAdapter() {
+		            @Override
+		            public void windowClosed(WindowEvent e) {
+		            	orderView.setText(function.getOrder());
+		            	totalField.setText(function.getPrice());
+		            }
+		        });
+				mod.setVisible(true);
+			}
+		});
+		frame.getContentPane().add(hotChocolateButton);
+		
+		//button to add an Latte
+		JButton latteButton = new JButton("Latte");
+		latteButton.setBounds(7, 106, 117, 29);
+		latteButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ModifyItem mod = new ModifyItem("Latte", function);
+				mod.addWindowListener(new WindowAdapter() {
+		            @Override
+		            public void windowClosed(WindowEvent e) {
+		            	orderView.setText(function.getOrder());
+		            	totalField.setText(function.getPrice());
+		            }
+		        });
+				mod.setVisible(true);
+			}
+		});
+		frame.getContentPane().add(latteButton);
+		
+		//button to add an Cappuccino
+		JButton cappuccinoButton = new JButton("Cappuccino");
+		cappuccinoButton.setBounds(119, 169, 117, 29);
+		cappuccinoButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ModifyItem mod = new ModifyItem("Cappuccino", function);
+				mod.addWindowListener(new WindowAdapter() {
+		            @Override
+		            public void windowClosed(WindowEvent e) {
+		            	orderView.setText(function.getOrder());
+		            	totalField.setText(function.getPrice());
+		            }
+		        });
+				mod.setVisible(true);
+			}
+		});
+		frame.getContentPane().add(cappuccinoButton);
+		
+		//button to add an Macchiato
+		JButton macchiatoButton = new JButton("Macchiato");
+		macchiatoButton.setBounds(6, 138, 117, 29);
+		macchiatoButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ModifyItem mod = new ModifyItem("Macchiato", function);
+				mod.addWindowListener(new WindowAdapter() {
+		            @Override
+		            public void windowClosed(WindowEvent e) {
+		            	orderView.setText(function.getOrder());
+		            	totalField.setText(function.getPrice());
+		            }
+		        });
+				mod.setVisible(true);
+			}
+		});
+		frame.getContentPane().add(macchiatoButton);
+		
+		//button to add an Frappee
+		JButton frappeeButton = new JButton("Frappee");
+		frappeeButton.setBounds(119, 106, 117, 29);
+		frappeeButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ModifyItem mod = new ModifyItem("Frappee", function);
+				mod.addWindowListener(new WindowAdapter() {
+		            @Override
+		            public void windowClosed(WindowEvent e) {
+		            	orderView.setText(function.getOrder());
+		            	totalField.setText(function.getPrice());
+		            }
+		        });
+				mod.setVisible(true);
+			}
+		});
+		frame.getContentPane().add(frappeeButton);
+		
+//-----------------------------------------------------------------------------------------------Food
+		//unlike drinks, food will automatically add 1 of its kind straight to the order without opening a new window
+		//in most coffee shops you are not able to customize food as it comes premade.
+		
+		//button to add a Bagel
+		JButton beagleButton = new JButton("Bagel");
+		beagleButton.setBounds(7, 260, 117, 29);
+		beagleButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				function.addToCart("Bagel", 1);
+				orderView.setText(function.getOrder());
+				totalField.setText(function.getPrice());
+			}
+		});
+		frame.getContentPane().add(beagleButton);
+		
+		//button to add a Cookie
+		JButton cookieButton = new JButton("Cookie");
+		cookieButton.setBounds(119, 260, 117, 29);
+		cookieButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				function.addToCart("Cookie", 1);
+				orderView.setText(function.getOrder());
+				totalField.setText(function.getPrice());
+			}
+		});
+		frame.getContentPane().add(cookieButton);
+		
+		//button to add a Muffin
+		JButton muffinButton = new JButton("Muffin");
+		muffinButton.setBounds(6, 229, 117, 29);
+		muffinButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				function.addToCart("Muffin", 1);
+				orderView.setText(function.getOrder());
+				totalField.setText(function.getPrice());
+			}
+		});
+		frame.getContentPane().add(muffinButton);
+		
+		//button to add a Doughnut
+		JButton doughnutButton = new JButton("Doughnut");
+		doughnutButton.setBounds(119, 229, 117, 29);
+		doughnutButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				function.addToCart("Doughnut", 1);
+				orderView.setText(function.getOrder());
+				totalField.setText(function.getPrice());
+			}
+		});
+		frame.getContentPane().add(doughnutButton);
+		
+//-----------------------------------------------------------------------------------------------utilities
+		
+		// button to add the entire order to the database
+		//before adding to the order it checks if: the names contain any unwanted characters, there is text in the names, and if there even is anything in the order
 		JButton addToOrderButton = new JButton("Add to Order");
-		addToOrderButton.setBounds(385, 303, 117, 29);
+		addToOrderButton.setBounds(418, 303, 117, 29);
 		addToOrderButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				noName.setVisible(false);
@@ -261,27 +297,41 @@ public class CustomerUi {
 				}
 				else if(function.santizie(fNameField.getText(), LNameFeild.getText())){
 					invalidName.setVisible(true);
+				}else if(function.getOrder().isBlank()) {
+					JOptionPane.showMessageDialog(null, "Your Cart is Empty!");
+				}else {
+					function.order(fNameField.getText(), LNameFeild.getText());
 				}
 			}
 		});
 		frame.getContentPane().add(addToOrderButton);
 		
+		//remove the last entered item in the order
 		JButton removeButton = new JButton("Remove");
-		removeButton.setBounds(271, 303, 117, 29);
+		removeButton.setBounds(304, 303, 117, 29);
 		removeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				function.remove();
 				orderView.setText(function.getOrder());
+				totalField.setText(function.getPrice());
 			}
 		});
 		frame.getContentPane().add(removeButton);
 		
+		//open another window to check the prices and make an order for items that do not have a button
 		JButton pricesButton = new JButton("View Prices");
 		pricesButton.setBounds(6, 301, 117, 29);
 		pricesButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CheckPrice price = new CheckPrice();
-				price.main(null);
+				priceChecker checker = new priceChecker(function);
+				checker.addWindowListener(new WindowAdapter() {
+		            @Override
+		            public void windowClosed(WindowEvent e) {
+		            	orderView.setText(function.getOrder());
+		            	totalField.setText(function.getPrice());
+		            }
+		        });
+				checker.setVisible(true);
 			}
 		});
 		frame.getContentPane().add(pricesButton);
