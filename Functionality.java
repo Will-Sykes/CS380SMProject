@@ -38,13 +38,13 @@ public class Functionality {
 		if(orderDisplay.containsKey(food)) {
 			orderDisplay.put(food, orderDisplay.get(food) + 1);
 			orderDisplayArray.add(food);
-			addtoTotal(food, orderDisplay.get(food) + 1);
+			addtoTotal(food, 1);
 		}else {
 			String orderString = "|" + quanitity.toString() + " " + food;
 			orderDisplay.put(food, quanitity);
 			orderArray.add(orderString);
 			orderDisplayArray.add(food);
-			addtoTotal(food, quanitity);
+			addtoTotal(food, 1);
 		}
 	}
 	
@@ -149,15 +149,6 @@ public class Functionality {
 	 */
 	public void addtoTotal(String item, int quant) {
 		total += quant * Float.parseFloat(database.getPrice(item));
-	}
-	
-	/*
-	 * check if an item exists in the database
-	 * @param item is the item we are looking for
-	 * @return true if the item exist, false if it doesnt
-	 */
-	public boolean itemExists(String item) {
-		return database.GetItems(item); 
 	}
 
 	/*
