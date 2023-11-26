@@ -3,56 +3,92 @@ import java.util.*;
 public class Functionality {
 	
 	// class properties 
-	private HashMap<String, Integer> orderDisplay; // hashmap to be used only for display purposes
-	private ArrayList<String> orderArray;
+	
+	/*
+	 * properties formated for display purposes
+	 * hashmap to be used only for display purposes
+	 * arraylist to be used to keep track of what is being ordered in what order
+	 */
+	private HashMap<String, Integer> orderDisplay;
 	private ArrayList<String> orderDisplayArray;
-	private StringBuilder finalOrder = new StringBuilder();
-	private float total;
 	
-	Order_database order;
+	private ArrayList<String> orderArray;// arraylist to keep track of the order formated for the database
+	private float total;// keeps track of the customers total 
 	
-	// constructor
+	//database object
+	private CustomerLineDatabase database;
+	
+	/*
+	 * constructor
+	 */
 	public Functionality(){
 		orderDisplay = new HashMap<String, Integer>();
 		orderArray = new ArrayList<String>();
 		orderDisplayArray = new ArrayList<String>();
 		total = (float) 0.0;
-		order= new Order_database();
+		database= new CustomerLineDatabase();
 	}
 	
-	
+	/*
+	 * adds 1 of a certain food item to cart 
+	 * @param the item to add to the cart
+	 * @param quanitity of items to add to the cart
+	 */
 	public void addToCart(String food, Integer quanitity) {
-		
 		if(orderDisplay.containsKey(food)) {
 			orderDisplay.put(food, orderDisplay.get(food) + 1);
 			orderDisplayArray.add(food);
+			addtoTotal(food, orderDisplay.get(food) + 1);
 		}else {
 			String orderString = "|" + quanitity.toString() + " " + food;
 			orderDisplay.put(food, quanitity);
 			orderArray.add(orderString);
 			orderDisplayArray.add(food);
+			addtoTotal(food, quanitity);
 		}
 	}
+	
+	/*
+	 * adds a certain drink item to cart 
+	 * @param the item to add to the cart
+	 * @param quanitity of items to add to the cart
+	 * @param mod is the customizations made to the item
+	 */
 	public void addToCart(String drink, String mod, Integer quanitity) {
 		
 		String item = drink + ": " + mod.substring(2, mod.length());
 		
 		if(orderDisplay.containsKey(item)) {
-			orderDisplay.put(item, orderDisplay.get(item) + 1);	
+			orderDisplay.put(item, orderDisplay.get(item) + quanitity);	
 			orderDisplayArray.add(item);
+			addtoTotal(drink, quanitity);
 		}else {
 			String orderString = "|" + quanitity.toString() + " " + item.substring(0, item.length() - 2);
 			orderDisplay.put(item, quanitity);
 			orderArray.add(orderString);
+			addtoTotal(drink, quanitity);
 			for(int i = 0; i < quanitity; i++) {
 				orderDisplayArray.add(item);
 			}
 		}
 	}
 	
+	/*
+	 * remove the last entered item from the cart
+	 */
 	public void remove() {
 		if (!orderDisplayArray.isEmpty()) {
 	        String lastEnteredItem = orderDisplayArray.get(orderDisplayArray.size() - 1);
+	        if(lastEnteredItem.contains(":")) {
+	        	// because of the way each item is formatted, we only care about the name of the item, not its modifications
+	        	// so everything from the ":" and on should be dropped and decrement the the price of the last ordered item from the total
+	        	String[] parts = lastEnteredItem.split(":");
+	        	total -= Float.parseFloat(database.getPrice(parts[0].trim()));
+	        }else {
+	        	total -= Float.parseFloat(database.getPrice(lastEnteredItem));
+	        }
+	        //if there is more then 1 of that item, decrement it by 1, 
+	        // if there is only 1 of that item, delete the item decrement the the price of the last ordered item from the total
 	        Integer count = orderDisplay.get(lastEnteredItem);
 	        if (count > 0) {
 	            orderDisplay.put(lastEnteredItem, count - 1);
@@ -77,6 +113,9 @@ public class Functionality {
 		return fullOrder.toString();
 	}
 	
+	/*
+	 * sanitize user inputs and make sure only letters are entered
+	 */
 	public boolean santizie(String firstN, String lastN) {
 		boolean isInvalid = false;
 		char[] chars = firstN.toCharArray();
@@ -95,32 +134,43 @@ public class Functionality {
 	    return isInvalid;
 	}
 	
+	/*
+	 * get the price and only keep the 2nd decimal place ex: .00
+	 * @return the price with only 2 decimal places
+	 */
+	public String getPrice() {
+		return "$" + String.format("%.2f", total);
+	}
+	
+	/*
+	 * add the to the total: the price of a certain item multiplies by the amount of that item
+	 * @param item is what price we are looking for 
+	 * @param is how many of that item we want
+	 */
+	public void addtoTotal(String item, int quant) {
+		total += quant * Float.parseFloat(database.getPrice(item));
+	}
+	
+	/*
+	 * check if an item exists in the database
+	 * @param item is the item we are looking for
+	 * @return true if the item exist, false if it doesnt
+	 */
+	public boolean itemExists(String item) {
+		return database.GetItems(item); 
+	}
+
+	/*
+	 * add an order to the database
+	 * @param fname is the first name of the 
+	 */
 	public void order(String fName, String lName) {
+		StringBuilder finalOrder = new StringBuilder();
 		for(String item: orderArray) {
 			finalOrder.append(item);
 		}
-		String grandTotal = "" + this.total;
-		Order_database order = new Order_database();
-		order.OrderAdd(fName, lName, finalOrder.toString(), grandTotal);
-	}
-	
-	public float getPrice(String item) {
-		String menuPrices = order.PrintPriceCheckPanel();
-		String[] lines = menuPrices.split("\n");
+		CustomerLineDatabase.makeOrder(fName.toUpperCase(), lName.toUpperCase(), finalOrder.toString());
 		
-		for (String line : lines) {
-		    String[] part = line.split(" ");
-		    String menuItem = part[0];
-		    double price = Double.parseDouble(part[1]);
-		    
-		    if(item.equals(menuItem)) {
-		    	this.total += price;
-		    }
-		}
-		
-		return this.total;
 	}
-	
-	
 	
 }
