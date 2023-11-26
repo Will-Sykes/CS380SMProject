@@ -152,22 +152,19 @@ public class CustomerLineDatabase {
 	 * @param is the item we are looking for
 	 * @return true if the item exists menu, false if not
 	 */
-	public boolean GetItems(String item) {
-		boolean flag = false;
-		
+	public static boolean ItemNotExist(String item) {	
 		try {
 			Statement st = con.createStatement();
 			ResultSet rs = st.executeQuery("select * from "+ManagerView+"\nwhere " + Category + " = "+"\"" +  PriceCheck+"\"");
 			while(rs.next()) {
 				if(rs.getString(Product).equals(item)) {
-					flag = true;
-					break;
+					return false;
 				}
 			}
 		}catch(Exception e){
 			System.out.println("Exception "+e.getMessage());
 		}
-		return flag;
+		return true;
 	}
 
 }
