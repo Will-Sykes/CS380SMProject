@@ -47,6 +47,7 @@ public class priceChecker extends JFrame{
 	 * @param function 
 	 */
 	public priceChecker(Functionality function) {
+		setResizable(false);
 		initialize(function);
 	}
 
@@ -55,8 +56,9 @@ public class priceChecker extends JFrame{
 	 */
 	private void initialize(final Functionality function) {
 		frmPriceCheck = new JPanel();
-		setTitle("Price Check");
+		setTitle("Prices");
 		frmPriceCheck.setBounds(100, 100, 335, 480);
+		setSize(335, 480);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		DisplaytextArea = new JTextArea();
 		DisplaytextArea.setEditable(false);
@@ -67,6 +69,13 @@ public class priceChecker extends JFrame{
 		invalidInput.setBounds(168, 388, 162, 16);
 		getContentPane().add(invalidInput);
 		invalidInput.setVisible(false);
+		
+		final JLabel addedSuccessfully = new JLabel("Item added to cart!");
+		addedSuccessfully.setFont(new Font("Lucida Grande", Font.BOLD, 13));
+		addedSuccessfully.setForeground(new Color(0, 163, 17));
+		addedSuccessfully.setBounds(200, 388, 134, 16);
+		getContentPane().add(addedSuccessfully);
+		addedSuccessfully.setVisible(false);
 		
 		/**
 		 * creates a return button that allows for the user to go back to the previous page
@@ -88,6 +97,8 @@ public class priceChecker extends JFrame{
 		DisplayButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				invalidInput.setVisible(false);
+				addedSuccessfully.setVisible(false);
 				DisplaytextArea.setText(CustomerLineDatabase.PrintPriceCheckPanel());
 			}
 		});
@@ -120,21 +131,22 @@ public class priceChecker extends JFrame{
 		addtoCartBttn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				invalidInput.setVisible(false);
+				addedSuccessfully.setVisible(false);
 				if(textField.getText().isEmpty() || 
 						function.santizie(textField.getText(), textField.getText()) || 
-						function.itemExists(textField.getText())) {
+						CustomerLineDatabase.ItemNotExist(textField.getText())) {
+					
 					invalidInput.setVisible(true);
 				}
 				else {
 					invalidInput.setVisible(false);
-					
-					// uses the method used for adding food to cart because we don't know about any modification or customizations
 					function.addToCart(textField.getText(), 1);
+					addedSuccessfully.setVisible(true);
 				}
 			}
 
 		});
 		getContentPane().add(addtoCartBttn);
 	}
-
 }
