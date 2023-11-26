@@ -93,6 +93,7 @@ public class ModifyItem extends JFrame {
 	 */
 	@SuppressWarnings("deprecation")
 	public ModifyItem(final String drink, final Functionality function) {
+		setResizable(false);
 		setTitle(drink);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 204, 345);
