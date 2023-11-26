@@ -8,16 +8,17 @@ import java.awt.*;
 
 
 public class ModifyItem extends JFrame {
-
+	// properties
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private StringBuilder custom = new StringBuilder();
-	
 	private JSpinner drinkQuantity;
 	private JComboBox<String> drinkSize;
     private JComboBox<String> hotOrIced;
     private JList<String> listOfFlavors;
     private JSpinner shotsNum;
+    
+    // string builder add modifications
+ 	private StringBuilder custom = new StringBuilder();
 	
 	
 
@@ -39,6 +40,16 @@ public class ModifyItem extends JFrame {
 		});
 	}
 	
+	
+	/*
+	 * format the string of customizations to shorten the string.
+	 * @param ammount the amount of drinks to order
+	 * @param size the size of the drink
+	 * @param temp if the drink is iced or hot
+	 * @param flav what flavor the drink should be
+	 * @param shots is how many shots of espresso the drink should have 
+	 * @return the formated string of customizations
+	 */
 	private String customFormat(String ammount, String size, String temp, String flav, String shots) {
 		
 		// add the amount of drinks to add
@@ -90,35 +101,47 @@ public class ModifyItem extends JFrame {
 
 		setContentPane(contentPane);
 		
+		// dispose this frame if the customer made a mistake and wants to go back to make another drink choice
+		JButton backButton = new JButton("Back");
+		backButton.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent e) {
+	        	
+	        	ModifyItem.this.dispose(); // This will close the window
+	        }
+	    });
+		
 		// the quantity of drinks
 		JLabel quantityLabel = new JLabel("Quantity ");
 		SpinnerNumberModel shotsModel = new SpinnerNumberModel(1, 1, 10, 1); // min 1 drink, max 10 drinks
 		drinkQuantity = new JSpinner(shotsModel);
 		
+		// does the customer want the drink iced or hot
 		JLabel iceOrHotLabel = new JLabel("Iced or Hot");	
 		hotOrIced = new JComboBox<String>(new String[] {"Hot", "Iced"});
 		if(drink.equals("Hot Chocolate"))
 		{
-			//hotOrIced.disable();
+			// if the drink is hot chocolate, disable this option so its locked on hot
 			hotOrIced.enable(false);
 		}else if(drink.equals("Frappee"))
 		{
-			//hotOrIced.disable();
+			// if the drink is hot chocolate, disable this option and
+			//lock it on a new option of iced and blended (since thats what a frappe is)
 			hotOrIced.enable(false);
 			hotOrIced = new JComboBox<String>(new String[] {"Iced (Blended)"});
 		}
 		
+		// the size of the drink
 		JLabel drinkSizeLabel = new JLabel("Size");
 		drinkSize = new JComboBox<String>(new String[] {"Small", "Medium", "Large"});
 		
+		// the flavor of the drink
 		JLabel flavorLabel = new JLabel("Flavor");
 		String[] arrayFlvaor = {"No Flavor", "Caramel", "Vanilla", "Mocha"};
 		listOfFlavors = new JList<String>(arrayFlvaor);
 		listOfFlavors.setSelectedIndex(0);
 		JScrollPane flavorScrollPane = new JScrollPane();
 		
-		
-		
+		// the number of shots in the drink
 		JLabel numberOfShotsLabel = new JLabel("Shots");
 		SpinnerNumberModel numberOfShots = new SpinnerNumberModel(1, 1, 4, 1); // min 1 shot, max 4 drinks
 		shotsNum = new JSpinner(numberOfShots);
@@ -126,20 +149,22 @@ public class ModifyItem extends JFrame {
 		JButton addToOrderButton = new JButton("Add to Cart");
 		addToOrderButton.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
+	        	// make customizations into strings
 	        	String quant = drinkQuantity.getValue().toString();
 	        	String siz = drinkSize.getSelectedItem().toString();
 				String temp = hotOrIced.getSelectedItem().toString();
 				String flav = listOfFlavors.getSelectedValue();
 				String shot = shotsNum.getValue().toString();
+				
+				//create one formated string of customizations, then add the drink, and how many drinks to the cart
 	        	String mods = customFormat(quant, siz, temp, flav, shot);
-	        	
 	        	function.addToCart(drink, mods, (Integer) drinkQuantity.getValue());
 	        	
+	        	//get rid of the frame as we got the needed info and dont need it anymore
 	        	ModifyItem.this.dispose(); // This will close the window
 	        }
 	    });
 		
-		JButton backButton = new JButton("Back");
 		
 		
 		
