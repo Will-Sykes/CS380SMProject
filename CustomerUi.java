@@ -332,15 +332,22 @@ public class CustomerUi {
 			public void actionPerformed(ActionEvent e) {
 				noName.setVisible(false);
 				invalidName.setVisible(false);
-				if(fNameField.getText().isEmpty() || lNameFeild.getText().isEmpty()) {
+				if(fNameField.getText().isEmpty() || lNameFeild.getText().isEmpty()) { // make sure both name fields are not empty
 					noName.setVisible(true);
 				}
-				else if(function.santizie(fNameField.getText(), lNameFeild.getText())){
+				else if(function.santizie(fNameField.getText(), lNameFeild.getText())){  // make sure names only contain letters and spaces
 					invalidName.setVisible(true);
-				}else if(function.getOrder().isBlank()) {
+				}else if(function.getOrder().isBlank()) { //make sure that there are items in the order
 					JOptionPane.showMessageDialog(null, "Your Cart is Empty!");
 				}else {
+					// make the order
 					function.order(fNameField.getText(), lNameFeild.getText());
+					
+					// reset everything
+					orderView.setText(function.getOrder());
+	            	totalField.setText(function.getPrice());
+	            	fNameField.setText("");
+	            	lNameFeild.setText("");
 				}
 			}
 		});
@@ -380,27 +387,13 @@ public class CustomerUi {
 		});
 		frame.getContentPane().add(pricesButton);
 		
-		final JButton exitBttn = new JButton("Close/Hide");
+		// add a return button that closes the window
+		final JButton exitBttn = new JButton("Return");
+		exitBttn.setFont(new Font("Apple Chancery", Font.PLAIN, 13));
 		exitBttn.setBounds(7, 303, 117, 29);
 		exitBttn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Object[] options = {"Close Window", "Hide Button"};
-		        int choice = JOptionPane.showOptionDialog(frame, "Would you like to close this window or hide the button?",
-		        		"Close or Hide",
-		        		JOptionPane.YES_NO_OPTION,
-		        		JOptionPane.QUESTION_MESSAGE,
-		        		null,
-		        		options,
-		        		options[1]);
-
-		        // Perform action based on user choice
-		        if (choice == JOptionPane.YES_OPTION) {
-		            // Close window
-		            frame.dispose();
-		        } else if (choice == JOptionPane.NO_OPTION) {
-		            // Hide button
-		            exitBttn.setVisible(false);
-		        }
+				frame.dispose();
 			}
 		});
 		frame.getContentPane().add(exitBttn);
