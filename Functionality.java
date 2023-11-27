@@ -15,8 +15,6 @@ public class Functionality {
 	private ArrayList<String> orderArray;// arraylist to keep track of the order formated for the database
 	private float total;// keeps track of the customers total 
 	
-	//database object
-	private CustomerLineDatabase database;
 	
 	/*
 	 * constructor
@@ -26,7 +24,6 @@ public class Functionality {
 		orderArray = new ArrayList<String>();
 		orderDisplayArray = new ArrayList<String>();
 		total = (float) 0.0;
-		database= new CustomerLineDatabase();
 	}
 	
 	/*
@@ -83,9 +80,9 @@ public class Functionality {
 	        	// because of the way each item is formatted, we only care about the name of the item, not its modifications
 	        	// so everything from the ":" and on should be dropped and decrement the the price of the last ordered item from the total
 	        	String[] parts = lastEnteredItem.split(":");
-	        	total -= Float.parseFloat(database.getPrice(parts[0].trim()));
+	        	total -= Float.parseFloat(CustomerLineDatabase.getPrice(parts[0].trim()));
 	        }else {
-	        	total -= Float.parseFloat(database.getPrice(lastEnteredItem));
+	        	total -= Float.parseFloat(CustomerLineDatabase.getPrice(lastEnteredItem));
 	        }
 	        //if there is more then 1 of that item, decrement it by 1, 
 	        // if there is only 1 of that item, delete the item decrement the the price of the last ordered item from the total
@@ -117,19 +114,37 @@ public class Functionality {
 	 * sanitize user inputs and make sure only letters are entered
 	 */
 	public boolean santizie(String firstN, String lastN) {
+		// check if the strings are invalid 
 		boolean isInvalid = false;
+		
+		// make sure the strings contain at least 1 letter
+		int letterCounterFName = 0;
+		int letterCounterLName = 0;
+		
+		//check the first name
 		char[] chars = firstN.toCharArray();
 	    for (char c : chars) {
-	        if(!Character.isLetter(c)) {
+	        if(!Character.isLetter(c) && c != ' ') {
 	            isInvalid = true;
+	            
+	        }else if(Character.isLetter(c)) {
+	        	letterCounterFName ++;
 	        }
 	    }
 	    
+	    // check the last name
 	    chars = lastN.toCharArray();
 	    for (char c : chars) {
-	        if(!Character.isLetter(c)) {
+	        if(!Character.isLetter(c) && c != ' ') {
 	            isInvalid = true;
+	        }else if(Character.isLetter(c)) {
+	        	letterCounterLName ++;
 	        }
+	    }
+	    
+	    // check if either strings is missing at least 1 letter
+	    if(letterCounterFName <= 0|| letterCounterLName <= 0) {
+	    	isInvalid = true;
 	    }
 	    return isInvalid;
 	}
@@ -148,7 +163,7 @@ public class Functionality {
 	 * @param is how many of that item we want
 	 */
 	public void addtoTotal(String item, int quant) {
-		total += quant * Float.parseFloat(database.getPrice(item));
+		total += quant * Float.parseFloat(CustomerLineDatabase.getPrice(item));
 	}
 
 	/*
