@@ -16,29 +16,15 @@ public class CustomerLineDatabase {
 	 */
 	public static final String Lname = "Lname";
 	
-	/**
-	 * variable that stores the orderDescription of the customer
-	 */
-	public static final String OrderDescription = "OrderDescription";
 	
 	/**
 	 * variable that stores the total price of the customer order
 	 */
 	public static final String Price = "Price";
 	/**
-	 * variable that holds the coffeeshoporders table name to be refrenced later
-	 */
-	public static final String Ordertable = "coffeeshoporders";
-	
-	/**
 	 * variable that holds the order line table name
 	 */
 	public static final String OrderLineTable = "CustomerLine";
-	
-	/**
-	 * holds the name of a column from the database onto a beingworkedon variable
-	 */
-	public static final String BeingWorkedOn = "BeingWorkedOn";
 	/**
 	 * Holds the name of the MangerView table in the database
 	 */
@@ -51,10 +37,7 @@ public class CustomerLineDatabase {
 	
 	public static final String Category = "Category";
 	
-	public static final String Product = "Product";
-	
-	public static final String Quantity = "Quantity";
-	
+	public static final String Product = "Product";	
 	
 	
 	
@@ -166,5 +149,4 @@ public class CustomerLineDatabase {
 		}
 		return true;
 	}
-
 }
