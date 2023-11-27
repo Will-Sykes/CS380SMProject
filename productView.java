@@ -126,9 +126,12 @@ public class productView {
 		            JOptionPane.showMessageDialog(null, "Please enter a product to modify.", "Error", JOptionPane.ERROR_MESSAGE);
 		            return;
 		        }
-
+				
 		        prodField = productField.getText();
-
+		        String selectedValue = (String) coffee.getSelectedItem();
+		        
+		        
+		        
 		        Double priField = -1.0; // Default value indicating no input
 		        if (!priceField.getText().isEmpty()) {
 		            try {
@@ -137,9 +140,10 @@ public class productView {
 		                // Handle invalid input if needed
 		            }
 		        }
-
+		 
 		        Integer quaField = -1; // Default value indicating no input
 		        if (!quantityField.getText().isEmpty()) {
+		        	
 		            try {
 		                quaField = Integer.parseInt(quantityField.getText());
 		            } catch (NumberFormatException ex) {
@@ -147,9 +151,18 @@ public class productView {
 		            }
 		        }
 		        
+		        if(selectedValue == "Price Check" && quaField != -1) {
+		        	JOptionPane.showMessageDialog(null, "Please do not enter a quantity in price check category.", "Error", JOptionPane.ERROR_MESSAGE);
+		            return;
+		        }
+		        if(selectedValue == "Inventory" && priField != -1.0) {
+		        	JOptionPane.showMessageDialog(null, "Please do not modify a price in Inventory.", "Error", JOptionPane.ERROR_MESSAGE);
+		            return;
+		        }
 		        
 		        
-		        String selectedValue = (String) coffee.getSelectedItem();
+		        
+		        
 		        boolean productInfo = EmployeeProductView.modProduct(prodField, priField, quaField, selectedValue);
 
 		       
@@ -255,7 +268,7 @@ public class productView {
 		frame.getContentPane().add(lblNewLabel_3);
 		
 		JButton clsWButton = new JButton("Close Window");
-		clsWButton.setBounds(10, 341, 106, 23);
+		clsWButton.setBounds(10, 341, 134, 23);
 		clsWButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
