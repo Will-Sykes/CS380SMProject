@@ -121,16 +121,44 @@ public class productView {
 		modButton.addMouseListener(new MouseAdapter() {
 			@Override
 		    public void mouseClicked(MouseEvent e) {
+				
+				if (productField.getText().isEmpty()) {
+		            JOptionPane.showMessageDialog(null, "Please enter a product to modify.", "Error", JOptionPane.ERROR_MESSAGE);
+		            return;
+		        }
+
 		        prodField = productField.getText();
 
-		        String productInfo = EmployeeProductView.searchProduct(prodField);
+		        Double priField = -1.0; // Default value indicating no input
+		        if (!priceField.getText().isEmpty()) {
+		            try {
+		                priField = Double.parseDouble(priceField.getText());
+		            } catch (NumberFormatException ex) {
+		                // Handle invalid input if needed
+		            }
+		        }
 
-		        // Update the GUI component with the product information
-		        textArea.setText(productInfo);
+		        Integer quaField = -1; // Default value indicating no input
+		        if (!quantityField.getText().isEmpty()) {
+		            try {
+		                quaField = Integer.parseInt(quantityField.getText());
+		            } catch (NumberFormatException ex) {
+		                // Handle invalid input if needed
+		            }
+		        }
+		        
+		        
+		        
+		        String selectedValue = (String) coffee.getSelectedItem();
+		        boolean productInfo = EmployeeProductView.modProduct(prodField, priField, quaField, selectedValue);
+
+		       
 
 		        // If the product was not found, show an error message
-		        if (productInfo.equals("Item not found.")) {
-		            JOptionPane.showMessageDialog(null, "Could not find Product.", "Error", JOptionPane.ERROR_MESSAGE);
+		        if (productInfo) {
+		            JOptionPane.showMessageDialog(null, "Product modified successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+		        } else {
+		            JOptionPane.showMessageDialog(null, "Failed to modify product.", "Error", JOptionPane.ERROR_MESSAGE);
 		        }
 			}
 		});
@@ -143,10 +171,25 @@ public class productView {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
-				prodField = productField.getText();
-				priField = Double.parseDouble(priceField.getText());
-				quaField = Integer.parseInt(quantityField.getText());
+				
+				
+				
+				if ((String) coffee.getSelectedItem() == "") {
+					JOptionPane.showMessageDialog(null, "Please select an item category.", "Error", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
 				String selectedValue = (String) coffee.getSelectedItem();
+				prodField = productField.getText();
+				
+				
+				if(selectedValue == "Inventory") {
+					quaField = Integer.parseInt(quantityField.getText());
+					priField = 0.0;
+				} else {
+					priField = Double.parseDouble(priceField.getText());
+					quaField = 0; 
+				}
+					
 				
 				boolean productAdded = EmployeeProductView.addProduct(prodField, priField, quaField, selectedValue);
 				
@@ -213,6 +256,14 @@ public class productView {
 		
 		JButton clsWButton = new JButton("Close Window");
 		clsWButton.setBounds(10, 341, 106, 23);
+		clsWButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				frame.dispose();
+				
+			}
+		});
 		frame.getContentPane().add(clsWButton);
 		
 		

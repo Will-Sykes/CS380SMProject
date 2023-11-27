@@ -24,10 +24,11 @@ public class EmployeeProductView {
 	public static boolean addProduct(String product, Double price, int quantity, String category) {
 	
 		/**
-		 * Method to add a row in manageview table
-		 * @param String dvdT Title from field 
-		 * @param String dvdY Year  from field
-		 * @param Integer dvdCN Call number from field
+		 * Method to add a product in manageview table
+		 * @param String product name from field 
+		 * @param double price from field
+		 * @param Integer quantity from field
+		 * @param category from jcbox field
 		 */
 		try {
 			Statement st = con.createStatement();
@@ -53,8 +54,8 @@ public class EmployeeProductView {
 	public static boolean removeProduct(String product) {
 		
 		/**
-         * Method to remove a row in books table
-         * @param String bookTitle Title from field 
+         * Method to remove a row in managerview table
+         * @param String product name from field
          */
 	    try {
 	        Statement st = con.createStatement();
@@ -80,33 +81,45 @@ public class EmployeeProductView {
 	
 	public static boolean modProduct(String product, Double price, int quantity, String category) {
 		/**
-         * Method to modify a row in books table
-         * @param String bookTitle Title from field 
+         * Method to modify a products information
+         * @param String product  from field 
+         * @param Double price  from field 
+         * @param int quantity  from field 
+         * @param String category  from field 
          */
-	    try {
+		try {
 	        Statement st = con.createStatement();
 
-	        
-	        String updateStatusQuery = "UPDATE my_coffee_shop.managerview SET Price = '"+ price +"' WHERE Product = '" + product + "'";
-	        int rowsAffected = st.executeUpdate(updateStatusQuery);
-	        String updateStatusQuery2 = "UPDATE my_coffee_shop.managerview SET Quantity = '"+ quantity +"' WHERE Product = '" + product + "'";
-	        int rowsAffected2 = st.executeUpdate(updateStatusQuery2);
-	        String updateStatusQuery3 = "UPDATE my_coffee_shop.managerview SET Category = '"+ category +"' WHERE Product = '" + product + "'";
-	        int rowsAffected3 = st.executeUpdate(updateStatusQuery2);
+	        StringBuilder updateQuery = new StringBuilder("UPDATE my_coffee_shop.managerview SET ");
 
-	        if (rowsAffected3 > 0) {
-				return true;
-			} else {
-				return false;
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();  
-			return false;
-		}
+	        if (price >= 0) {
+	            updateQuery.append("Price = '").append(price).append("', ");
+	        }
+
+	        if (quantity >= 0) {
+	            updateQuery.append("Quantity = '").append(quantity).append("', ");
+	        }
+
+	        if (category != null && !category.isEmpty()) {
+	            updateQuery.append("Category = '").append(category).append("', ");
+	        }
+
+	        
+	        updateQuery.setLength(updateQuery.length() - 2);
+
+	        updateQuery.append(" WHERE Product = '").append(product).append("'");
+
+	        int rowsAffected = st.executeUpdate(updateQuery.toString());
+
+	        return rowsAffected > 0;
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return false;
+	    }
 	}
 	/**
-     * Search and retrieve customer information
-     * @param String custName from field
+     * Search and retrieve product info for single product
+     * @param String product from field
      */
 	public static String searchProduct(String product) {
 		
@@ -147,8 +160,8 @@ public class EmployeeProductView {
 	
 	
 	/**
-     * Search and retrieve customer information
-     * @param String custName from field
+     * display all items by category
+     * @param String category from combo box
      */
 	public static String searchCat(String category) {
 		
