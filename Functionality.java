@@ -171,12 +171,19 @@ public class Functionality {
 	 * @param fname is the first name of the 
 	 */
 	public void order(String fName, String lName) {
+		// format the order
 		StringBuilder finalOrder = new StringBuilder();
 		for(String item: orderArray) {
 			finalOrder.append(item);
 		}
+		//format the order
 		CustomerLineDatabase.makeOrder(fName.toUpperCase(), lName.toUpperCase(), finalOrder.toString());
 		
+		// clear everything
+		orderDisplay.clear();
+		orderDisplayArray.clear();
+		orderArray.clear();
+		total = (float) 0.0;
 	}
 	
 }
