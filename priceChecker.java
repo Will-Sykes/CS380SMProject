@@ -1,5 +1,3 @@
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -15,11 +13,12 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import java.awt.Font;
 import java.awt.Color;
+import java.awt.EventQueue;
 
 public class priceChecker extends JFrame{
 	
 	// properties 
-	private static final long serialVersionUID = 1L;
+	//private static final long serialVersionUID = 1L;
 	private JPanel frmPriceCheck;
 	private JTextArea DisplaytextArea;
 	private JTextField textField;
@@ -47,6 +46,8 @@ public class priceChecker extends JFrame{
 	 * @param function 
 	 */
 	public priceChecker(Functionality function) {
+		getContentPane().setBackground(new Color(228, 194, 149));
+		setFont(new Font("Apple Chancery", Font.PLAIN, 12));
 		setResizable(false);
 		initialize(function);
 	}
@@ -59,21 +60,24 @@ public class priceChecker extends JFrame{
 		setTitle("Prices");
 		frmPriceCheck.setBounds(100, 100, 335, 480);
 		setSize(335, 480);
+		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		DisplaytextArea = new JTextArea();
+		DisplaytextArea.setFont(new Font("Apple Chancery", Font.PLAIN, 13));
+		DisplaytextArea.setBackground(new Color(228, 194, 149));
 		DisplaytextArea.setEditable(false);
 		
 		final JLabel invalidInput = new JLabel("Please Enter Valid Item");
 		invalidInput.setForeground(Color.RED);
 		invalidInput.setFont(new Font("Lucida Grande", Font.BOLD, 13));
-		invalidInput.setBounds(168, 388, 162, 16);
+		invalidInput.setBounds(156, 348, 162, 16);
 		getContentPane().add(invalidInput);
 		invalidInput.setVisible(false);
 		
 		final JLabel addedSuccessfully = new JLabel("Item added to cart!");
-		addedSuccessfully.setFont(new Font("Lucida Grande", Font.BOLD, 13));
+		addedSuccessfully.setFont(new Font("Apple Chancery", Font.BOLD, 13));
 		addedSuccessfully.setForeground(new Color(0, 163, 17));
-		addedSuccessfully.setBounds(200, 388, 134, 16);
+		addedSuccessfully.setBounds(156, 348, 134, 16);
 		getContentPane().add(addedSuccessfully);
 		addedSuccessfully.setVisible(false);
 		
@@ -81,27 +85,15 @@ public class priceChecker extends JFrame{
 		 * creates a return button that allows for the user to go back to the previous page
 		 */
 		JButton ReturnButton = new JButton("Return");
-		ReturnButton.setBounds(0, 361, 124, 29);
+		ReturnButton.setFont(new Font("Apple Chancery", Font.PLAIN, 13));
+		ReturnButton.setBounds(0, 425, 124, 29);
 		ReturnButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				dispose();
 			}
 		});
-		
-		/**
-		 * creates a display button that will print all product and pricing information onto the text area
-		 */
-		JButton DisplayButton = new JButton("Display Prices");
-		DisplayButton.setBounds(0, 417, 150, 29);
-		DisplayButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				invalidInput.setVisible(false);
-				addedSuccessfully.setVisible(false);
-				DisplaytextArea.setText(CustomerLineDatabase.PrintPriceCheckPanel());
-			}
-		});
+		DisplaytextArea.setText(CustomerLineDatabase.PrintPriceCheckPanel());
 		
 		/**
 		 * creates the formating for the buttons and the panel
@@ -111,14 +103,15 @@ public class priceChecker extends JFrame{
 		scrollPane.setViewportView(DisplaytextArea);
 		getContentPane().setLayout(null);
 		getContentPane().add(ReturnButton);
-		getContentPane().add(DisplayButton);
 		getContentPane().add(scrollPane);
 		
 		JLabel lblNewLabel = new JLabel("Add to Cart:");
-		lblNewLabel.setBounds(174, 346, 76, 16);
+		lblNewLabel.setFont(new Font("Apple Chancery", Font.PLAIN, 13));
+		lblNewLabel.setBounds(11, 328, 76, 16);
 		getContentPane().add(lblNewLabel);
 		textField = new JTextField();
-		textField.setBounds(168, 361, 150, 26);
+		textField.setFont(new Font("Apple Chancery", Font.PLAIN, 13));
+		textField.setBounds(5, 343, 150, 26);
 		getContentPane().add(textField);
 		textField.setColumns(10);
 		
@@ -126,7 +119,8 @@ public class priceChecker extends JFrame{
 		 * creates a button that will add an item from the price menu to the cart
 		 */
 		JButton addtoCartBttn = new JButton("Add to Cart");
-		addtoCartBttn.setBounds(213, 417, 117, 29);
+		addtoCartBttn.setFont(new Font("Apple Chancery", Font.PLAIN, 13));
+		addtoCartBttn.setBounds(0, 371, 117, 29);
 		getContentPane().add(addtoCartBttn);
 		addtoCartBttn.addActionListener(new ActionListener() {
 			@Override

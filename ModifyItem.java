@@ -9,7 +9,7 @@ import java.awt.*;
 
 public class ModifyItem extends JFrame {
 	// properties
-	private static final long serialVersionUID = 1L;
+	//private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JSpinner drinkQuantity;
 	private JComboBox<String> drinkSize;
@@ -93,17 +93,21 @@ public class ModifyItem extends JFrame {
 	 */
 	@SuppressWarnings("deprecation")
 	public ModifyItem(final String drink, final Functionality function) {
+		setFont(new Font("Apple Chancery", Font.PLAIN, 12));
 		setResizable(false);
 		setTitle(drink);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 204, 345);
+		setBounds(100, 100, 231, 345);
 		contentPane = new JPanel();
+		contentPane.setBackground(new Color(228, 194, 149));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setLocationRelativeTo(null);
 
 		setContentPane(contentPane);
 		
 		// dispose this frame if the customer made a mistake and wants to go back to make another drink choice
 		JButton backButton = new JButton("Back");
+		backButton.setFont(new Font("Apple Chancery", Font.PLAIN, 13));
 		backButton.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
 	        	
@@ -113,12 +117,15 @@ public class ModifyItem extends JFrame {
 		
 		// the quantity of drinks
 		JLabel quantityLabel = new JLabel("Quantity ");
+		quantityLabel.setFont(new Font("Apple Chancery", Font.PLAIN, 13));
 		SpinnerNumberModel shotsModel = new SpinnerNumberModel(1, 1, 10, 1); // min 1 drink, max 10 drinks
 		drinkQuantity = new JSpinner(shotsModel);
 		
 		// does the customer want the drink iced or hot
 		JLabel iceOrHotLabel = new JLabel("Iced or Hot");	
+		iceOrHotLabel.setFont(new Font("Apple Chancery", Font.PLAIN, 13));
 		hotOrIced = new JComboBox<String>(new String[] {"Hot", "Iced"});
+		hotOrIced.setFont(new Font("Apple Chancery", Font.PLAIN, 13));
 		if(drink.equals("Hot Chocolate"))
 		{
 			// if the drink is hot chocolate, disable this option so its locked on hot
@@ -133,21 +140,32 @@ public class ModifyItem extends JFrame {
 		
 		// the size of the drink
 		JLabel drinkSizeLabel = new JLabel("Size");
+		drinkSizeLabel.setFont(new Font("Apple Chancery", Font.PLAIN, 15));
 		drinkSize = new JComboBox<String>(new String[] {"Small", "Medium", "Large"});
+		drinkSize.setFont(new Font("Apple Chancery", Font.PLAIN, 13));
 		
 		// the flavor of the drink
 		JLabel flavorLabel = new JLabel("Flavor");
+		flavorLabel.setFont(new Font("Apple Chancery", Font.PLAIN, 13));
 		String[] arrayFlvaor = {"No Flavor", "Caramel", "Vanilla", "Mocha"};
 		listOfFlavors = new JList<String>(arrayFlvaor);
+		listOfFlavors.setFont(new Font("Apple Chancery", Font.PLAIN, 12));
 		listOfFlavors.setSelectedIndex(0);
 		JScrollPane flavorScrollPane = new JScrollPane();
 		
 		// the number of shots in the drink
 		JLabel numberOfShotsLabel = new JLabel("Shots");
+		numberOfShotsLabel.setFont(new Font("Apple Chancery", Font.PLAIN, 13));
 		SpinnerNumberModel numberOfShots = new SpinnerNumberModel(1, 1, 4, 1); // min 1 shot, max 4 drinks
 		shotsNum = new JSpinner(numberOfShots);
 		
+		// price of the item
+		JLabel price = new JLabel("0.00");
+		price.setText("Price $:" + String.format("%.2f", Float.parseFloat(CustomerLineDatabase.getPrice(drink))));
+		price.setFont(new Font("Apple Chancery", Font.PLAIN, 13));
+		
 		JButton addToOrderButton = new JButton("Add to Cart");
+		addToOrderButton.setFont(new Font("Apple Chancery", Font.PLAIN, 13));
 		addToOrderButton.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
 	        	// make customizations into strings
@@ -170,46 +188,50 @@ public class ModifyItem extends JFrame {
 		
 		
 		
+		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
+					.addContainerGap()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addComponent(addToOrderButton, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE)
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addContainerGap()
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+								.addComponent(drinkSizeLabel)
 								.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-									.addComponent(addToOrderButton, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE)
 									.addGroup(gl_contentPane.createSequentialGroup()
+										.addGap(12)
 										.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-											.addComponent(drinkSizeLabel)
-											.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-												.addGroup(gl_contentPane.createSequentialGroup()
-													.addGap(12)
-													.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-														.addComponent(quantityLabel)
-														.addComponent(flavorLabel)))
-												.addComponent(iceOrHotLabel)))
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-											.addGroup(gl_contentPane.createSequentialGroup()
-												.addGap(6)
-												.addComponent(flavorScrollPane, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE))
-											.addComponent(drinkQuantity, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-											.addComponent(hotOrIced, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-											.addComponent(drinkSize, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
+											.addComponent(quantityLabel)
+											.addComponent(flavorLabel)))
+									.addComponent(iceOrHotLabel)))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_contentPane.createSequentialGroup()
-									.addGap(40)
-									.addComponent(numberOfShotsLabel)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(shotsNum, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
-						.addComponent(backButton))
-					.addContainerGap(158, Short.MAX_VALUE))
+									.addGap(6)
+									.addComponent(flavorScrollPane, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE))
+								.addComponent(drinkQuantity, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(hotOrIced, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(drinkSize, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGap(40)
+							.addComponent(numberOfShotsLabel)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(shotsNum, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap(40, Short.MAX_VALUE))
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addComponent(backButton)
+					.addPreferredGap(ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
+					.addComponent(price)
+					.addGap(16))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addComponent(backButton)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+						.addComponent(backButton)
+						.addComponent(price))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(quantityLabel)
@@ -235,7 +257,7 @@ public class ModifyItem extends JFrame {
 						.addComponent(shotsNum, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(addToOrderButton)
-					.addContainerGap(31, Short.MAX_VALUE))
+					.addContainerGap(24, Short.MAX_VALUE))
 		);
 		flavorScrollPane.setViewportView(listOfFlavors);
 		contentPane.setLayout(gl_contentPane);
