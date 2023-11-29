@@ -155,6 +155,7 @@ public class productView {
 		        	JOptionPane.showMessageDialog(null, "Please do not enter a quantity in price check category.", "Error", JOptionPane.ERROR_MESSAGE);
 		            return;
 		        }
+		        
 		        if(selectedValue == "Inventory" && priField != -1.0) {
 		        	JOptionPane.showMessageDialog(null, "Please do not modify a price in Inventory.", "Error", JOptionPane.ERROR_MESSAGE);
 		            return;

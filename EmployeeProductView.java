@@ -30,6 +30,22 @@ public class EmployeeProductView {
 		 * @param Integer quantity from field
 		 * @param category from jcbox field
 		 */
+		
+		if(quantity < 0) {
+			return false;
+		}	
+		
+		if(price < 0) {
+			return false;
+		}
+		
+		if (category == "") {
+			return false;
+		}
+		if (category == null) {
+			return false;
+		}
+		
 		try {
 			Statement st = con.createStatement();
 
@@ -91,7 +107,26 @@ public class EmployeeProductView {
 	        Statement st = con.createStatement();
 
 	        StringBuilder updateQuery = new StringBuilder("UPDATE my_coffee_shop.managerview SET ");
-
+	        
+	        if (price > 0 && category == "Inventory") {
+	        	return false;
+	        }
+	        
+	        if (quantity > 0 && category == "Price Check") {
+	        	return false;
+	        }
+	        
+	        if (price < 0) {
+	        	return false; 
+	        }
+	        if (quantity < 0) {
+	        	return false;
+	        }
+	        
+	        if(category == "" || category == null) {
+	        	return false;
+	        }
+	        
 	        if (price >= 0) {
 	            updateQuery.append("Price = '").append(price).append("', ");
 	        }
