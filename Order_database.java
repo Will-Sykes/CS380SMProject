@@ -191,7 +191,7 @@ public class Order_database {
 			/**
 			 * creates a result set to hold all value from the sql statement
 			 */
-			ResultSet rs = st.executeQuery("select * from "+Ordertable+"\nORDER BY Fname");
+			ResultSet rs = st.executeQuery("select * from "+Ordertable);
 			while(rs.next()) {
 				output += "------------------------------\n";
 				output += "Name: ";
@@ -229,7 +229,7 @@ public class Order_database {
 			/**
 			 * creates a result set that holds all attributes from the sql statment
 			 */
-			ResultSet rs = st.executeQuery("select * from "+OrderLineTable+"\nORDER BY Fname");
+			ResultSet rs = st.executeQuery("select * from "+OrderLineTable+"\nORDER BY "+ BeingWorkedOn);
 			while(rs.next()) {
 				output += "----------------------------------------\n";
 				output += "Name: ";
