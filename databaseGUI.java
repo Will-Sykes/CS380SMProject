@@ -132,7 +132,7 @@ public class databaseGUI{
 		/**
 		 * creates a check box to help reveal a password for the user
 		 */
-		JCheckBox checkbox = new JCheckBox("");
+		final JCheckBox checkbox = new JCheckBox("");
 		checkbox.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {

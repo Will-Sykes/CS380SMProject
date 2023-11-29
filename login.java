@@ -139,7 +139,7 @@ public class login {
 		/**
 		 * checkbox that will hide the ID for the login later on
 		 */
-		JCheckBox checkbox = new JCheckBox("");
+		final JCheckBox checkbox = new JCheckBox("");
 		checkbox.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
