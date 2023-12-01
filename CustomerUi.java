@@ -388,7 +388,7 @@ public class CustomerUi {
 		frame.getContentPane().add(pricesButton);
 		
 		// add a return button that closes the window
-		final JButton exitBttn = new JButton("Return");
+		final JButton exitBttn = new JButton("Close Window");
 		exitBttn.setFont(new Font("Apple Chancery", Font.PLAIN, 13));
 		exitBttn.setBounds(7, 303, 117, 29);
 		exitBttn.addActionListener(new ActionListener() {

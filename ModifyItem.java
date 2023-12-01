@@ -82,7 +82,9 @@ public class ModifyItem extends JFrame {
 			custom.append("MOC ");
 		}
 		
-		custom.append(shots + "Shot");
+		if(!shots.equals("")) {
+			custom.append(shots + "Shot");
+		}
 		
 		return custom.toString();
 	}
@@ -158,6 +160,10 @@ public class ModifyItem extends JFrame {
 		numberOfShotsLabel.setFont(new Font("Apple Chancery", Font.PLAIN, 13));
 		SpinnerNumberModel numberOfShots = new SpinnerNumberModel(1, 1, 4, 1); // min 1 shot, max 4 drinks
 		shotsNum = new JSpinner(numberOfShots);
+		if(drink.equals("Hot Chocolate")) {
+			numberOfShotsLabel.setVisible(false);
+            shotsNum.setVisible(false);
+		}
 		
 		// price of the item
 		JLabel price = new JLabel("0.00");
@@ -173,8 +179,10 @@ public class ModifyItem extends JFrame {
 	        	String siz = drinkSize.getSelectedItem().toString();
 				String temp = hotOrIced.getSelectedItem().toString();
 				String flav = listOfFlavors.getSelectedValue();
-				String shot = shotsNum.getValue().toString();
-				
+				String shot = "";
+				if(!drink.equals("Hot Chocolate")) {
+					shot = shotsNum.getValue().toString();
+				}
 				//create one formated string of customizations, then add the drink, and how many drinks to the cart
 	        	String mods = customFormat(quant, siz, temp, flav, shot);
 	        	function.addToCart(drink, mods, (Integer) drinkQuantity.getValue());

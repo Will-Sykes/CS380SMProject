@@ -11,7 +11,6 @@ public class Functionality {
 	 */
 	private HashMap<String, Integer> orderDisplay;
 	private ArrayList<String> orderDisplayArray;
-	
 	private ArrayList<String> orderArray;// arraylist to keep track of the order formated for the database
 	private float total;// keeps track of the customers total 
 	
@@ -26,22 +25,50 @@ public class Functionality {
 		total = (float) 0.0;
 	}
 	
+	// methods for unit testing
+	public String getOrderDisplayHash() {
+		return orderDisplay.toString();
+	}
+	public String getOrderDisplayArray() {
+		return orderDisplayArray.toString();
+	}
+	public String getOrderArray() {
+		return orderArray.toString();
+	}
+	public float getTotal() {
+		return total;
+	}
+	public void clear() {
+		orderDisplay.clear();
+		orderDisplayArray.clear();
+		orderArray.clear();
+		total = (float) 0.0;
+	}
+	
 	/*
 	 * adds 1 of a certain food item to cart 
 	 * @param the item to add to the cart
 	 * @param quanitity of items to add to the cart
 	 */
 	public void addToCart(String food, Integer quanitity) {
-		if(orderDisplay.containsKey(food)) {
-			orderDisplay.put(food, orderDisplay.get(food) + 1);
-			orderDisplayArray.add(food);
-			addtoTotal(food, 1);
-		}else {
-			String orderString = "|" + quanitity.toString() + " " + food;
-			orderDisplay.put(food, quanitity);
-			orderArray.add(orderString);
-			orderDisplayArray.add(food);
-			addtoTotal(food, 1);
+		boolean canAdd = true;
+		try{
+			Float.parseFloat(CustomerLineDatabase.getPrice(food));
+		}catch(Exception e) {
+			canAdd = false;
+		}
+		if(canAdd && quanitity > 0) {
+			if(orderDisplay.containsKey(food)) {
+				orderDisplay.put(food, orderDisplay.get(food) + quanitity);
+				orderDisplayArray.add(food);
+				addtoTotal(food, quanitity);
+			}else {
+				String orderString = "|" + quanitity.toString() + " " + food;
+				orderDisplay.put(food, quanitity);
+				orderArray.add(orderString);
+				orderDisplayArray.add(food);
+				addtoTotal(food, quanitity);
+			}
 		}
 	}
 	
@@ -52,20 +79,27 @@ public class Functionality {
 	 * @param mod is the customizations made to the item
 	 */
 	public void addToCart(String drink, String mod, Integer quanitity) {
+		boolean canAdd = true;
+		try{
+			Float.parseFloat(CustomerLineDatabase.getPrice(drink));
+		}catch(Exception e) {
+			canAdd = false;
+		}
+		if(canAdd && quanitity > 0) {
 		
-		String item = drink + ": " + mod.substring(2, mod.length());
-		
-		if(orderDisplay.containsKey(item)) {
-			orderDisplay.put(item, orderDisplay.get(item) + quanitity);	
-			orderDisplayArray.add(item);
-			addtoTotal(drink, quanitity);
-		}else {
-			String orderString = "|" + quanitity.toString() + " " + item.substring(0, item.length() - 2);
-			orderDisplay.put(item, quanitity);
-			orderArray.add(orderString);
-			addtoTotal(drink, quanitity);
-			for(int i = 0; i < quanitity; i++) {
+			String item = drink + ": " + mod.substring(2, mod.length());
+			if(orderDisplay.containsKey(item)) {
+				orderDisplay.put(item, orderDisplay.get(item) + quanitity);	
 				orderDisplayArray.add(item);
+				addtoTotal(drink, quanitity);
+			}else {
+				String orderString = "|" + quanitity.toString() + " " + item.substring(0, item.length() - 2);
+				orderDisplay.put(item, quanitity);
+				orderArray.add(orderString);
+				addtoTotal(drink, quanitity);
+				for(int i = 0; i < quanitity; i++) {
+					orderDisplayArray.add(item); 
+				}
 			}
 		}
 	}
@@ -89,8 +123,11 @@ public class Functionality {
 	        Integer count = orderDisplay.get(lastEnteredItem);
 	        if (count > 0) {
 	            orderDisplay.put(lastEnteredItem, count - 1);
+	            orderArray.set(orderArray.size() -1, "|" + Integer.toString(count -1 ) + " " + lastEnteredItem.substring(0, lastEnteredItem.length() - 2) );
 	            if (count <= 1 ) {
 	                orderDisplay.remove(lastEnteredItem);
+	                orderArray.remove(orderArray.size()-1);
+	                
 	            }
 	        }
 	        orderDisplayArray.remove(orderDisplayArray.size() - 1);
